@@ -15,7 +15,7 @@ MAX_AMOUNT = 100000
 CONTACT_EMAIL = ""   # впиши публичную почту для связи; пока пусто — страницы дадут GitHub Issues и Telegram
 PAY_URL = ""         # ссылка на страницу оплаты платёжного сервиса; пока пусто — блок «скоро»
 SITE_URL = "https://allvoid.github.io/support"
-ISSUES_URL = "https://github.com/Allvoid/support/issues"
+PAY_SERVICE = ""     # название платёжного сервиса — попадёт в политику конфиденциальности
 TG_URL = "https://t.me/arsound_git"
 ARSOUND_URL = "https://github.com/Allvoid/arsound"
 STEAM_URL = "https://steamcommunity.com/id/ardeveloper/myworkshopfiles/"
@@ -30,42 +30,80 @@ MODS = [
 ]
 
 CSS = """
-:root{--bg:#fafaf7;--panel:#fff;--ink:#1c1c1a;--dim:#5d5d57;--line:#e3e2dc;--accent:#2f6fed}
-@media (prefers-color-scheme:dark){:root{--bg:#141512;--panel:#1b1c18;--ink:#ecebe4;--dim:#a2a198;--line:#2d2e28;--accent:#7aa5ff}}
+:root{color-scheme:light;--bg:#f2f2f2;--bar:#fff;--panel:#fff;--ink:#333;--head:#111;--dim:#666;--line:#e5e5e5;--accent:#f50;--accent-ink:#c93c00;--wave-off:#ccc}
+:root[data-theme=dark]{color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 16px}
-a{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;padding:0 16px}
+a{color:var(--accent-ink)}
+.bar{background:var(--bar);border-bottom:1px solid var(--line);margin:0 -16px;padding:0 16px;position:sticky;top:0}
 header,main,footer{max-width:860px;margin:0 auto}
-header{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
-header .brand{font-weight:700;color:var(--ink);text-decoration:none;margin-right:auto}
-header a{text-decoration:none}
-header a.cur{color:var(--ink);font-weight:600}
+header{display:flex;flex-wrap:wrap;gap:4px 22px;align-items:center;min-height:56px}
+header .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--head);text-decoration:none;margin-right:auto;padding:8px 0}
+header .brand svg{flex:none}
+header a{text-decoration:none;color:var(--dim);font-size:.95rem;padding:6px 0;border-bottom:2px solid transparent}
+header a:hover{color:var(--head)}
+header a.cur{color:var(--head);border-bottom-color:var(--accent)}
+header a.brand{border:0}
+#theme{background:none;border:1px solid var(--line);color:var(--dim);border-radius:4px;padding:4px 10px;font:inherit;font-size:.85rem;cursor:pointer}
+#theme:hover{color:var(--head);border-color:var(--dim)}
 main{padding:28px 0 40px}
-h1{font-size:1.9rem;line-height:1.25;margin:0 0 6px}
-h2{font-size:1.25rem;margin:2rem 0 .5rem}
+.wave{display:block;width:100%;height:56px;margin:0 0 22px}
+.wave .on{fill:var(--accent)}
+.wave .off{fill:var(--wave-off)}
+h1{font-size:2rem;line-height:1.2;margin:0 0 8px;color:var(--head);letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:2.2rem 0 .5rem;color:var(--head)}
 .lead{color:var(--dim);margin:0 0 1.5rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
-.card h3{margin:.1rem 0 .3rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:14px 0}
+.card h3{margin:.1rem 0 .3rem;color:var(--head)}
 .muted{color:var(--dim);font-size:.92rem}
-.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 20px;border-radius:10px;font-weight:600}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:700}
+.btn:hover{filter:brightness(1.08)}
 ul{padding-left:1.3rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);font-size:.9rem}
-footer a{margin-right:14px}
+@media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 """
+
+# Волна-украшение: детерминированные столбики, первая треть — оранжевая, как проигранная часть трека
+def wave_svg():
+    import math
+    bars = []
+    for i in range(96):
+        h = 6 + int(34 * abs(math.sin(i * 0.37) * math.cos(i * 0.11)) + 8 * abs(math.sin(i * 1.7)))
+        cls = "on" if i < 32 else "off"
+        bars.append(f'<rect class="{cls}" x="{i * 8}" y="{28 - h // 2}" width="5" height="{h}" rx="2"/>')
+    return f'<svg class="wave" viewBox="0 0 768 56" preserveAspectRatio="none" aria-hidden="true">{"".join(bars)}</svg>'
+
+
+LOGO = ('<svg width="30" height="20" viewBox="0 0 30 20" aria-hidden="true"><g fill="#f50">'
+        '<rect x="0" y="9" width="3" height="8" rx="1.5"/><rect x="5" y="5" width="3" height="12" rx="1.5"/>'
+        '<rect x="10" y="1" width="3" height="16" rx="1.5"/><rect x="15" y="6" width="3" height="11" rx="1.5"/>'
+        '<rect x="20" y="3" width="3" height="14" rx="1.5"/><rect x="25" y="8" width="3" height="9" rx="1.5"/></g></svg>')
+
+THEME_JS = """(function(){var r=document.documentElement,b=document.getElementById('theme');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function label(){b.textContent=cur()==='dark'?b.dataset.l:b.dataset.d}
+label();try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',label)}catch(e){}
+b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);
+try{localStorage.setItem('theme',n)}catch(e){}label()})})();"""
+
+THEME_INIT = """try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}"""
 
 
 def contact_ru():
-    mail = f'<li>E-mail: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></li>' if CONTACT_EMAIL else ""
-    return (f'<ul><li>Самозанятый: {NAME}</li><li>ИНН: {INN}</li>{mail}'
-            f'<li>Обращения: <a href="{ISSUES_URL}">GitHub Issues</a></li>'
-            f'<li>Telegram-канал: <a href="{TG_URL}">t.me/arsound_git</a></li></ul>')
+    mail = (f'<a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>' if CONTACT_EMAIL
+            else "<b>[e-mail будет указан до публикации]</b>")
+    return (f'<ul><li>Самозанятый: {NAME}</li><li>ИНН: {INN}</li>'
+            f'<li>E-mail для обращений и возвратов: {mail}</li>'
+            f'<li>Новости проекта: <a href="{TG_URL}">Telegram-канал t.me/arsound_git</a></li></ul>')
 
 
 def contact_en():
-    mail = f'<li>E-mail: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></li>' if CONTACT_EMAIL else ""
-    return (f'<ul><li>Self-employed (Russian NPD regime): {NAME_EN}</li><li>Taxpayer ID (INN): {INN}</li>{mail}'
-            f'<li>Requests: <a href="{ISSUES_URL}">GitHub Issues</a></li>'
-            f'<li>Telegram channel: <a href="{TG_URL}">t.me/arsound_git</a></li></ul>')
+    mail = (f'<a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>' if CONTACT_EMAIL
+            else "<b>[e-mail to be set before publishing]</b>")
+    return (f'<ul><li>Self-employed (Russian NPD regime): {NAME_EN}</li><li>Taxpayer ID (INN): {INN}</li>'
+            f'<li>E-mail for requests and refunds: {mail}</li>'
+            f'<li>Project news: <a href="{TG_URL}">Telegram channel t.me/arsound_git</a></li></ul>')
 
 
 def pay_ru():
@@ -139,10 +177,11 @@ RU["offer"] = ("Публичная оферта о пожертвовании", 
 <p>1.4. <b>Пожертвование</b> — безвозмездная и добровольная передача денежных средств Получателю на цели из п. 2.2.</p>
 
 <h2>2. Предмет оферты</h2>
-<p>2.1. Настоящий документ — публичная оферта (предложение) заключить договор пожертвования в соответствии со статьёй 582
-Гражданского кодекса Российской Федерации.</p>
-<p>2.2. Пожертвование направляется на поддержку и развитие Проектов: время разработки, тестирование, тестовые устройства,
-серверы и сервисы, необходимые для сборки и распространения.</p>
+<p>2.1. Настоящий документ — публичная оферта (предложение) заключить договор пожертвования в соответствии со статьями 572
+и 582 Гражданского кодекса Российской Федерации.</p>
+<p>2.2. Пожертвование направляется на поддержку и развитие Проектов — свободно распространяемого программного обеспечения с
+открытым исходным кодом, доступного неограниченному кругу лиц бесплатно (общеполезная цель): время разработки,
+тестирование, тестовые устройства, серверы и сервисы, необходимые для сборки и распространения.</p>
 <p>2.3. Пожертвование добровольно и безвозмездно. Оно не является оплатой товаров, работ или услуг и не обязывает Получателя
 предоставить Жертвователю какие-либо товары, услуги, дополнительный или приоритетный функционал, преимущества либо иное
 встречное предоставление. Проекты доступны всем одинаково и бесплатно — независимо от факта и размера пожертвования.</p>
@@ -171,7 +210,8 @@ RU["offer"] = ("Публичная оферта о пожертвовании", 
 <p>5.1. Ввиду безвозмездного характера пожертвование по общему правилу возврату не подлежит.</p>
 <p>5.2. Возврат возможен в исключительных случаях: двойное или ошибочное списание из-за технического сбоя; перечисление в
 ошибочном размере вследствие явной технической ошибки — при обращении в разумный срок.</p>
-<p>5.3. Для возврата нужно написать Получателю (контакты ниже) с указанием даты, суммы и адреса почты, на который пришёл чек.
+<p>5.3. Для возврата нужно написать Получателю на e-mail из раздела «Контакты и реквизиты» с указанием даты, суммы и адреса
+почты, на который пришёл чек. Не публикуйте эти данные в открытых местах (чатах, трекерах).
 Срок рассмотрения — до 7 рабочих дней. Возврат делается тем же способом, которым платили.</p>
 
 <h2>6. Заключительные положения</h2>
@@ -199,7 +239,9 @@ GitHub Pages; как и любой веб-сервер, GitHub может фик
 <h2>3. Пожертвования</h2>
 <p>При пожертвовании обрабатываются: сумма, дата и статус платежа, идентификатор операции, адрес электронной почты, который вы
 указали для чека. Оплата проходит на стороне платёжного сервиса — номер карты, CVC и имя держателя Получатель не получает и
-не хранит. Платёжный сервис обрабатывает данные по своей политике.</p>
+не хранит. Платёжный сервис{" (" + PAY_SERVICE + ")" if PAY_SERVICE else ""} обрабатывает данные по своей политике.</p>
+<p>Оплачивая, вы даёте согласие на обработку указанных выше данных на условиях этой Политики. Согласие можно отозвать, написав
+по контактам ниже; сведения, которые закон требует хранить, при этом сохраняются на установленный срок.</p>
 <p>Для формирования чека сведения о платеже вносятся в приложение «Мой налог» (ФНС России).</p>
 
 <h2>4. Зачем и как долго</h2>
@@ -210,7 +252,8 @@ GitHub Pages; как и любой веб-сервер, GitHub может фик
 
 <h2>5. Ваши права</h2>
 <p>Вы можете запросить сведения о своих данных, их исправление или удаление, если закон не требует их хранения. Напишите по
-контактам ниже; ответ — в срок до 10 рабочих дней.</p>
+контактам ниже; ответ — в срок до 10 рабочих дней. Если вы считаете, что ваши права нарушены, можно обратиться в
+Роскомнадзор.</p>
 
 <h2>6. Сами проекты</h2>
 <p>Arsound и моды для RimWorld не отправляют данные Получателю. Что приложение отправляет на сторонние сервисы (например,
@@ -314,9 +357,11 @@ the <a href="index.html">main page</a>.</p>
 <p>1.4. <b>Donation</b> — a gratuitous, voluntary transfer of money to the Recipient for the purposes in clause 2.2.</p>
 
 <h2>2. Subject</h2>
-<p>2.1. This is a public offer to conclude a donation agreement under Article 582 of the Civil Code of the Russian Federation.</p>
-<p>2.2. A donation supports and develops the Projects: development time, testing, test devices, and servers and services needed
-for building and distribution.</p>
+<p>2.1. This is a public offer to conclude a donation agreement under Articles 572 and 582 of the Civil Code of the Russian
+Federation.</p>
+<p>2.2. A donation supports and develops the Projects — free, open-source software available to an unlimited number of people at
+no cost (a public-benefit purpose): development time, testing, test devices, and servers and services needed for building and
+distribution.</p>
 <p>2.3. A donation is voluntary and gratuitous. It is not payment for goods, work or services and does not oblige the Recipient
 to provide any goods, services, extra or priority features, advantages or other consideration. The Projects are available to
 everyone equally and free of charge, regardless of whether or how much was donated.</p>
@@ -341,7 +386,8 @@ Donor's data under the <a href="privacy.html">Privacy Policy</a>.</p>
 <p>5.1. Because a donation is gratuitous, it is generally not refundable.</p>
 <p>5.2. A refund is possible in exceptional cases: a double or erroneous charge caused by a technical failure; a wrong amount caused
 by an obvious technical error — if requested within a reasonable time.</p>
-<p>5.3. To request a refund, write to the Recipient (contacts below) with the date, amount and the e-mail the receipt went to.
+<p>5.3. To request a refund, write to the e-mail in "Contacts and details" with the date, amount and the e-mail the receipt went to.
+Do not post these details in public places (chats, trackers).
 Review takes up to 7 business days. The refund goes back by the same method.</p>
 
 <h2>6. Final provisions</h2>
@@ -369,7 +415,9 @@ no access to it.</p>
 <h2>3. Donations</h2>
 <p>For a donation we process the amount, date and status of the payment, the operation ID, and the e-mail you gave for the
 receipt. Payment happens on the payment service's side; we never receive or store your card number, CVC or cardholder name. The
-payment service processes data under its own policy.</p>
+payment service{" (" + PAY_SERVICE + ")" if PAY_SERVICE else ""} processes data under its own policy.</p>
+<p>By paying you consent to the processing of the data above under this Policy. You may withdraw consent by writing to the contacts
+below; data the law requires us to keep is retained for the statutory period.</p>
 <p>To issue a receipt, payment details are entered into the "My Tax" app of the Federal Tax Service of Russia.</p>
 
 <h2>4. Purpose and retention</h2>
@@ -379,7 +427,8 @@ are kept for the statutory tax and accounting period (at least 4 years); request
 
 <h2>5. Your rights</h2>
 <p>You may ask what data we hold, and ask to correct or delete it unless the law requires keeping it. Write to the contacts below;
-we reply within 10 business days.</p>
+we reply within 10 business days. If you believe your rights are violated, you may contact Roskomnadzor, the Russian data
+protection authority.</p>
 
 <h2>6. The projects themselves</h2>
 <p>Arsound and the RimWorld mods do not send data to the Recipient. What the app sends to third-party services (for example track and
@@ -446,6 +495,7 @@ def render(lang, key, title, body):
     switch_text = "English" if lang == "ru" else "Русский"
     brand = "Поддержка проектов" if lang == "ru" else "Support the projects"
     foot = f"{NAME} · ИНН {INN}" if lang == "ru" else f"{NAME_EN} · INN {INN}"
+    tl, td = ("Светлая тема", "Тёмная тема") if lang == "ru" else ("Light theme", "Dark theme")
     desc = ("Добровольные пожертвования независимому разработчику: Arsound и моды RimWorld."
             if lang == "ru" else "Voluntary donations to an independent developer: Arsound and RimWorld mods.")
     return f"""<!doctype html>
@@ -455,12 +505,14 @@ def render(lang, key, title, body):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{title if key != "index" else brand}{"" if key == "index" else " — " + brand}</title>
 <meta name="description" content="{title}. {desc}">
+<script>{THEME_INIT}</script>
 <style>{CSS}</style>
 </head>
 <body>
-<header><a class="brand" href="index.html">{brand}</a>{nav}<a href="{switch_href}">{switch_text}</a></header>
-<main>{body}</main>
+<div class="bar"><header><a class="brand" href="index.html">{LOGO}{brand}</a>{nav}<a href="{switch_href}">{switch_text}</a><button id="theme" type="button" data-l="{tl}" data-d="{td}"></button></header></div>
+<main>{wave_svg() if key == "index" else ""}{body}</main>
 <footer>{foot}</footer>
+<script>{THEME_JS}</script>
 </body>
 </html>
 """
@@ -473,6 +525,8 @@ def main():
             out = ROOT / ("en" if lang == "en" else ".") / f"{key}.html"
             out.write_text(render(lang, key, title, body), encoding="utf-8")
     (ROOT / ".nojekyll").write_text("", encoding="utf-8")
+    if not CONTACT_EMAIL:
+        print("WARNING: CONTACT_EMAIL пуст — в контактах стоит заглушка, не публиковать")
     print("ok")
 
 

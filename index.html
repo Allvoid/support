@@ -5,33 +5,45 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Поддержка проектов</title>
 <meta name="description" content="Поддержка проектов. Добровольные пожертвования независимому разработчику: Arsound и моды RimWorld.">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
-:root{--bg:#fafaf7;--panel:#fff;--ink:#1c1c1a;--dim:#5d5d57;--line:#e3e2dc;--accent:#2f6fed}
-@media (prefers-color-scheme:dark){:root{--bg:#141512;--panel:#1b1c18;--ink:#ecebe4;--dim:#a2a198;--line:#2d2e28;--accent:#7aa5ff}}
+:root{color-scheme:light;--bg:#f2f2f2;--bar:#fff;--panel:#fff;--ink:#333;--head:#111;--dim:#666;--line:#e5e5e5;--accent:#f50;--accent-ink:#c93c00;--wave-off:#ccc}
+:root[data-theme=dark]{color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 16px}
-a{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;padding:0 16px}
+a{color:var(--accent-ink)}
+.bar{background:var(--bar);border-bottom:1px solid var(--line);margin:0 -16px;padding:0 16px;position:sticky;top:0}
 header,main,footer{max-width:860px;margin:0 auto}
-header{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
-header .brand{font-weight:700;color:var(--ink);text-decoration:none;margin-right:auto}
-header a{text-decoration:none}
-header a.cur{color:var(--ink);font-weight:600}
+header{display:flex;flex-wrap:wrap;gap:4px 22px;align-items:center;min-height:56px}
+header .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--head);text-decoration:none;margin-right:auto;padding:8px 0}
+header .brand svg{flex:none}
+header a{text-decoration:none;color:var(--dim);font-size:.95rem;padding:6px 0;border-bottom:2px solid transparent}
+header a:hover{color:var(--head)}
+header a.cur{color:var(--head);border-bottom-color:var(--accent)}
+header a.brand{border:0}
+#theme{background:none;border:1px solid var(--line);color:var(--dim);border-radius:4px;padding:4px 10px;font:inherit;font-size:.85rem;cursor:pointer}
+#theme:hover{color:var(--head);border-color:var(--dim)}
 main{padding:28px 0 40px}
-h1{font-size:1.9rem;line-height:1.25;margin:0 0 6px}
-h2{font-size:1.25rem;margin:2rem 0 .5rem}
+.wave{display:block;width:100%;height:56px;margin:0 0 22px}
+.wave .on{fill:var(--accent)}
+.wave .off{fill:var(--wave-off)}
+h1{font-size:2rem;line-height:1.2;margin:0 0 8px;color:var(--head);letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:2.2rem 0 .5rem;color:var(--head)}
 .lead{color:var(--dim);margin:0 0 1.5rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
-.card h3{margin:.1rem 0 .3rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:14px 0}
+.card h3{margin:.1rem 0 .3rem;color:var(--head)}
 .muted{color:var(--dim);font-size:.92rem}
-.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 20px;border-radius:10px;font-weight:600}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:700}
+.btn:hover{filter:brightness(1.08)}
 ul{padding-left:1.3rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);font-size:.9rem}
-footer a{margin-right:14px}
+@media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 </style>
 </head>
 <body>
-<header><a class="brand" href="index.html">Поддержка проектов</a><a href="index.html" class=cur>Главная</a><a href="offer.html">Оферта</a><a href="privacy.html">Конфиденциальность</a><a href="terms.html">Соглашение</a><a href="en/index.html">English</a></header>
-<main>
+<div class="bar"><header><a class="brand" href="index.html"><svg width="30" height="20" viewBox="0 0 30 20" aria-hidden="true"><g fill="#f50"><rect x="0" y="9" width="3" height="8" rx="1.5"/><rect x="5" y="5" width="3" height="12" rx="1.5"/><rect x="10" y="1" width="3" height="16" rx="1.5"/><rect x="15" y="6" width="3" height="11" rx="1.5"/><rect x="20" y="3" width="3" height="14" rx="1.5"/><rect x="25" y="8" width="3" height="9" rx="1.5"/></g></svg>Поддержка проектов</a><a href="index.html" class=cur>Главная</a><a href="offer.html">Оферта</a><a href="privacy.html">Конфиденциальность</a><a href="terms.html">Соглашение</a><a href="en/index.html">English</a><button id="theme" type="button" data-l="Светлая тема" data-d="Тёмная тема"></button></header></div>
+<main><svg class="wave" viewBox="0 0 768 56" preserveAspectRatio="none" aria-hidden="true"><rect class="on" x="0" y="25" width="5" height="6" rx="2"/><rect class="on" x="8" y="15" width="5" height="26" rx="2"/><rect class="on" x="16" y="13" width="5" height="30" rx="2"/><rect class="on" x="24" y="7" width="5" height="42" rx="2"/><rect class="on" x="32" y="8" width="5" height="40" rx="2"/><rect class="on" x="40" y="8" width="5" height="40" rx="2"/><rect class="on" x="48" y="12" width="5" height="32" rx="2"/><rect class="on" x="56" y="17" width="5" height="23" rx="2"/><rect class="on" x="64" y="20" width="5" height="16" rx="2"/><rect class="on" x="72" y="22" width="5" height="12" rx="2"/><rect class="on" x="80" y="18" width="5" height="21" rx="2"/><rect class="on" x="88" y="20" width="5" height="16" rx="2"/><rect class="on" x="96" y="17" width="5" height="22" rx="2"/><rect class="on" x="104" y="23" width="5" height="11" rx="2"/><rect class="on" x="112" y="21" width="5" height="14" rx="2"/><rect class="on" x="120" y="23" width="5" height="10" rx="2"/><rect class="on" x="128" y="21" width="5" height="15" rx="2"/><rect class="on" x="136" y="23" width="5" height="10" rx="2"/><rect class="on" x="144" y="20" width="5" height="16" rx="2"/><rect class="on" x="152" y="17" width="5" height="23" rx="2"/><rect class="on" x="160" y="14" width="5" height="28" rx="2"/><rect class="on" x="168" y="10" width="5" height="36" rx="2"/><rect class="on" x="176" y="12" width="5" height="32" rx="2"/><rect class="on" x="184" y="11" width="5" height="35" rx="2"/><rect class="on" x="192" y="18" width="5" height="21" rx="2"/><rect class="on" x="200" y="19" width="5" height="19" rx="2"/><rect class="on" x="208" y="21" width="5" height="14" rx="2"/><rect class="on" x="216" y="13" width="5" height="31" rx="2"/><rect class="on" x="224" y="10" width="5" height="36" rx="2"/><rect class="on" x="232" y="6" width="5" height="45" rx="2"/><rect class="on" x="240" y="6" width="5" height="44" rx="2"/><rect class="on" x="248" y="8" width="5" height="40" rx="2"/><rect class="off" x="256" y="12" width="5" height="33" rx="2"/><rect class="off" x="264" y="19" width="5" height="19" rx="2"/><rect class="off" x="272" y="22" width="5" height="13" rx="2"/><rect class="off" x="280" y="20" width="5" height="17" rx="2"/><rect class="off" x="288" y="14" width="5" height="29" rx="2"/><rect class="off" x="296" y="16" width="5" height="24" rx="2"/><rect class="off" x="304" y="13" width="5" height="31" rx="2"/><rect class="off" x="312" y="18" width="5" height="21" rx="2"/><rect class="off" x="320" y="18" width="5" height="21" rx="2"/><rect class="off" x="328" y="22" width="5" height="13" rx="2"/><rect class="off" x="336" y="22" width="5" height="12" rx="2"/><rect class="off" x="344" y="22" width="5" height="12" rx="2"/><rect class="off" x="352" y="22" width="5" height="12" rx="2"/><rect class="off" x="360" y="19" width="5" height="19" rx="2"/><rect class="off" x="368" y="19" width="5" height="19" rx="2"/><rect class="off" x="376" y="14" width="5" height="28" rx="2"/><rect class="off" x="384" y="17" width="5" height="22" rx="2"/><rect class="off" x="392" y="14" width="5" height="28" rx="2"/><rect class="off" x="400" y="21" width="5" height="15" rx="2"/><rect class="off" x="408" y="21" width="5" height="14" rx="2"/><rect class="off" x="416" y="18" width="5" height="20" rx="2"/><rect class="off" x="424" y="12" width="5" height="33" rx="2"/><rect class="off" x="432" y="8" width="5" height="40" rx="2"/><rect class="off" x="440" y="6" width="5" height="44" rx="2"/><rect class="off" x="448" y="6" width="5" height="44" rx="2"/><rect class="off" x="456" y="10" width="5" height="36" rx="2"/><rect class="off" x="464" y="13" width="5" height="30" rx="2"/><rect class="off" x="472" y="22" width="5" height="13" rx="2"/><rect class="off" x="480" y="18" width="5" height="20" rx="2"/><rect class="off" x="488" y="17" width="5" height="23" rx="2"/><rect class="off" x="496" y="10" width="5" height="37" rx="2"/><rect class="off" x="504" y="11" width="5" height="34" rx="2"/><rect class="off" x="512" y="10" width="5" height="37" rx="2"/><rect class="off" x="520" y="14" width="5" height="29" rx="2"/><rect class="off" x="528" y="16" width="5" height="24" rx="2"/><rect class="off" x="536" y="20" width="5" height="17" rx="2"/><rect class="off" x="544" y="23" width="5" height="11" rx="2"/><rect class="off" x="552" y="20" width="5" height="16" rx="2"/><rect class="off" x="560" y="22" width="5" height="12" rx="2"/><rect class="off" x="568" y="21" width="5" height="15" rx="2"/><rect class="off" x="576" y="24" width="5" height="9" rx="2"/><rect class="off" x="584" y="19" width="5" height="19" rx="2"/><rect class="off" x="592" y="21" width="5" height="14" rx="2"/><rect class="off" x="600" y="18" width="5" height="20" rx="2"/><rect class="off" x="608" y="23" width="5" height="11" rx="2"/><rect class="off" x="616" y="20" width="5" height="17" rx="2"/><rect class="off" x="624" y="17" width="5" height="23" rx="2"/><rect class="off" x="632" y="12" width="5" height="32" rx="2"/><rect class="off" x="640" y="9" width="5" height="39" rx="2"/><rect class="off" x="648" y="9" width="5" height="39" rx="2"/><rect class="off" x="656" y="8" width="5" height="40" rx="2"/><rect class="off" x="664" y="14" width="5" height="29" rx="2"/><rect class="off" x="672" y="16" width="5" height="24" rx="2"/><rect class="off" x="680" y="25" width="5" height="7" rx="2"/><rect class="off" x="688" y="15" width="5" height="27" rx="2"/><rect class="off" x="696" y="13" width="5" height="31" rx="2"/><rect class="off" x="704" y="7" width="5" height="43" rx="2"/><rect class="off" x="712" y="8" width="5" height="41" rx="2"/><rect class="off" x="720" y="8" width="5" height="41" rx="2"/><rect class="off" x="728" y="12" width="5" height="33" rx="2"/><rect class="off" x="736" y="17" width="5" height="23" rx="2"/><rect class="off" x="744" y="20" width="5" height="16" rx="2"/><rect class="off" x="752" y="22" width="5" height="13" rx="2"/><rect class="off" x="760" y="17" width="5" height="23" rx="2"/></svg>
 <h1>Поддержка проектов</h1>
 <p class="lead">Страница добровольных пожертвований независимому разработчику: приложение Arsound и моды для RimWorld.</p>
 
@@ -65,8 +77,14 @@ footer a{margin-right:14px}
 Возврат пожертвования — только в случаях из раздела 5 оферты.</p>
 
 <h2>Кто получает пожертвования</h2>
-<ul><li>Самозанятый: Попов Матвей Юрьевич</li><li>ИНН: 231521307407</li><li>Обращения: <a href="https://github.com/Allvoid/support/issues">GitHub Issues</a></li><li>Telegram-канал: <a href="https://t.me/arsound_git">t.me/arsound_git</a></li></ul>
+<ul><li>Самозанятый: Попов Матвей Юрьевич</li><li>ИНН: 231521307407</li><li>E-mail для обращений и возвратов: <b>[e-mail будет указан до публикации]</b></li><li>Новости проекта: <a href="https://t.me/arsound_git">Telegram-канал t.me/arsound_git</a></li></ul>
 </main>
 <footer>Попов Матвей Юрьевич · ИНН 231521307407</footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function label(){b.textContent=cur()==='dark'?b.dataset.l:b.dataset.d}
+label();try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',label)}catch(e){}
+b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);
+try{localStorage.setItem('theme',n)}catch(e){}label()})})();</script>
 </body>
 </html>

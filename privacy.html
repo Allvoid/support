@@ -5,32 +5,44 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Политика конфиденциальности — Поддержка проектов</title>
 <meta name="description" content="Политика конфиденциальности. Добровольные пожертвования независимому разработчику: Arsound и моды RimWorld.">
+<script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
-:root{--bg:#fafaf7;--panel:#fff;--ink:#1c1c1a;--dim:#5d5d57;--line:#e3e2dc;--accent:#2f6fed}
-@media (prefers-color-scheme:dark){:root{--bg:#141512;--panel:#1b1c18;--ink:#ecebe4;--dim:#a2a198;--line:#2d2e28;--accent:#7aa5ff}}
+:root{color-scheme:light;--bg:#f2f2f2;--bar:#fff;--panel:#fff;--ink:#333;--head:#111;--dim:#666;--line:#e5e5e5;--accent:#f50;--accent-ink:#c93c00;--wave-off:#ccc}
+:root[data-theme=dark]{color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){color-scheme:dark;--bg:#121212;--bar:#111;--panel:#1c1c1c;--ink:#ddd;--head:#fff;--dim:#999;--line:#2c2c2c;--accent:#f50;--accent-ink:#ff8a50;--wave-off:#444}}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding:0 16px}
-a{color:var(--accent)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 "Helvetica Neue",Helvetica,Arial,system-ui,sans-serif;padding:0 16px}
+a{color:var(--accent-ink)}
+.bar{background:var(--bar);border-bottom:1px solid var(--line);margin:0 -16px;padding:0 16px;position:sticky;top:0}
 header,main,footer{max-width:860px;margin:0 auto}
-header{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
-header .brand{font-weight:700;color:var(--ink);text-decoration:none;margin-right:auto}
-header a{text-decoration:none}
-header a.cur{color:var(--ink);font-weight:600}
+header{display:flex;flex-wrap:wrap;gap:4px 22px;align-items:center;min-height:56px}
+header .brand{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--head);text-decoration:none;margin-right:auto;padding:8px 0}
+header .brand svg{flex:none}
+header a{text-decoration:none;color:var(--dim);font-size:.95rem;padding:6px 0;border-bottom:2px solid transparent}
+header a:hover{color:var(--head)}
+header a.cur{color:var(--head);border-bottom-color:var(--accent)}
+header a.brand{border:0}
+#theme{background:none;border:1px solid var(--line);color:var(--dim);border-radius:4px;padding:4px 10px;font:inherit;font-size:.85rem;cursor:pointer}
+#theme:hover{color:var(--head);border-color:var(--dim)}
 main{padding:28px 0 40px}
-h1{font-size:1.9rem;line-height:1.25;margin:0 0 6px}
-h2{font-size:1.25rem;margin:2rem 0 .5rem}
+.wave{display:block;width:100%;height:56px;margin:0 0 22px}
+.wave .on{fill:var(--accent)}
+.wave .off{fill:var(--wave-off)}
+h1{font-size:2rem;line-height:1.2;margin:0 0 8px;color:var(--head);letter-spacing:-.01em}
+h2{font-size:1.2rem;margin:2.2rem 0 .5rem;color:var(--head)}
 .lead{color:var(--dim);margin:0 0 1.5rem}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:14px 0}
-.card h3{margin:.1rem 0 .3rem}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:16px 20px;margin:14px 0}
+.card h3{margin:.1rem 0 .3rem;color:var(--head)}
 .muted{color:var(--dim);font-size:.92rem}
-.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 20px;border-radius:10px;font-weight:600}
+.btn{display:inline-block;background:var(--accent);color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:700}
+.btn:hover{filter:brightness(1.08)}
 ul{padding-left:1.3rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);font-size:.9rem}
-footer a{margin-right:14px}
+@media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 </style>
 </head>
 <body>
-<header><a class="brand" href="index.html">Поддержка проектов</a><a href="index.html">Главная</a><a href="offer.html">Оферта</a><a href="privacy.html" class=cur>Конфиденциальность</a><a href="terms.html">Соглашение</a><a href="en/privacy.html">English</a></header>
+<div class="bar"><header><a class="brand" href="index.html"><svg width="30" height="20" viewBox="0 0 30 20" aria-hidden="true"><g fill="#f50"><rect x="0" y="9" width="3" height="8" rx="1.5"/><rect x="5" y="5" width="3" height="12" rx="1.5"/><rect x="10" y="1" width="3" height="16" rx="1.5"/><rect x="15" y="6" width="3" height="11" rx="1.5"/><rect x="20" y="3" width="3" height="14" rx="1.5"/><rect x="25" y="8" width="3" height="9" rx="1.5"/></g></svg>Поддержка проектов</a><a href="index.html">Главная</a><a href="offer.html">Оферта</a><a href="privacy.html" class=cur>Конфиденциальность</a><a href="terms.html">Соглашение</a><a href="en/privacy.html">English</a><button id="theme" type="button" data-l="Светлая тема" data-d="Тёмная тема"></button></header></div>
 <main>
 <h1>Политика конфиденциальности</h1>
 <p class="lead">Дата последнего обновления: 26 октября 2026 года</p>
@@ -47,6 +59,8 @@ GitHub Pages; как и любой веб-сервер, GitHub может фик
 <p>При пожертвовании обрабатываются: сумма, дата и статус платежа, идентификатор операции, адрес электронной почты, который вы
 указали для чека. Оплата проходит на стороне платёжного сервиса — номер карты, CVC и имя держателя Получатель не получает и
 не хранит. Платёжный сервис обрабатывает данные по своей политике.</p>
+<p>Оплачивая, вы даёте согласие на обработку указанных выше данных на условиях этой Политики. Согласие можно отозвать, написав
+по контактам ниже; сведения, которые закон требует хранить, при этом сохраняются на установленный срок.</p>
 <p>Для формирования чека сведения о платеже вносятся в приложение «Мой налог» (ФНС России).</p>
 
 <h2>4. Зачем и как долго</h2>
@@ -57,7 +71,8 @@ GitHub Pages; как и любой веб-сервер, GitHub может фик
 
 <h2>5. Ваши права</h2>
 <p>Вы можете запросить сведения о своих данных, их исправление или удаление, если закон не требует их хранения. Напишите по
-контактам ниже; ответ — в срок до 10 рабочих дней.</p>
+контактам ниже; ответ — в срок до 10 рабочих дней. Если вы считаете, что ваши права нарушены, можно обратиться в
+Роскомнадзор.</p>
 
 <h2>6. Сами проекты</h2>
 <p>Arsound и моды для RimWorld не отправляют данные Получателю. Что приложение отправляет на сторонние сервисы (например,
@@ -68,8 +83,14 @@ GitHub Pages; как и любой веб-сервер, GitHub может фик
 <p>Актуальная версия всегда на этой странице. Новая редакция вступает в силу с момента публикации.</p>
 
 <h2>Контакты</h2>
-<ul><li>Самозанятый: Попов Матвей Юрьевич</li><li>ИНН: 231521307407</li><li>Обращения: <a href="https://github.com/Allvoid/support/issues">GitHub Issues</a></li><li>Telegram-канал: <a href="https://t.me/arsound_git">t.me/arsound_git</a></li></ul>
+<ul><li>Самозанятый: Попов Матвей Юрьевич</li><li>ИНН: 231521307407</li><li>E-mail для обращений и возвратов: <b>[e-mail будет указан до публикации]</b></li><li>Новости проекта: <a href="https://t.me/arsound_git">Telegram-канал t.me/arsound_git</a></li></ul>
 </main>
 <footer>Попов Матвей Юрьевич · ИНН 231521307407</footer>
+<script>(function(){var r=document.documentElement,b=document.getElementById('theme');
+function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}
+function label(){b.textContent=cur()==='dark'?b.dataset.l:b.dataset.d}
+label();try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',label)}catch(e){}
+b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.setAttribute('data-theme',n);
+try{localStorage.setItem('theme',n)}catch(e){}label()})})();</script>
 </body>
 </html>
