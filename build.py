@@ -101,9 +101,7 @@ RU["index"] = ("Поддержка проектов", f"""
 <h2>Что поддерживаете</h2>
 <div class="card">
 <h3>Arsound</h3>
-<p>Набор патчей с открытым кодом (на основе ReVanced) для Android-приложения SoundCloud: загрузка треков на телефон,
-своя музыка с телефона, плейлисты, которые открываются без интернета, темы оформления, настройки. Среди прочего убирает
-рекламу и навязчивые предложения подписки. Неофициальный проект, не связан с SoundCloud и ReVanced.</p>
+<p>Мод для Android-приложения SoundCloud. Неофициальный проект с открытым кодом, не связан с SoundCloud.</p>
 <p class="muted"><a href="{ARSOUND_URL}">Исходный код на GitHub</a> · <a href="{TG_URL}">Telegram-канал со сборками</a></p>
 </div>
 
@@ -279,9 +277,7 @@ the developer: it unlocks no features, gives no advantages and creates no obliga
 <h2>What you support</h2>
 <div class="card">
 <h3>Arsound</h3>
-<p>An open-source patch set (based on ReVanced) for the Android SoundCloud app: saving tracks to the phone, your own music
-from the phone, playlists that open offline, themes and settings. Among other things it removes ads and pushy subscription
-offers. An unofficial project, not affiliated with SoundCloud or ReVanced.</p>
+<p>A mod for the Android SoundCloud app. An unofficial open-source project, not affiliated with SoundCloud.</p>
 <p class="muted"><a href="{ARSOUND_URL}">Source code on GitHub</a> · <a href="{TG_URL}">Telegram channel with builds</a></p>
 </div>
 
