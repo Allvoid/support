@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Public donation offer — Support the projects</title>
-<meta name="description" content="Public donation offer. Voluntary donations to an independent developer: Arsound and RimWorld mods.">
+<title>Public offer — Support the projects</title>
+<meta name="description" content="Public offer. Support Arsound and RimWorld mods: any amount; early access to test builds from 250 Stars.">
 <script>try{var t=localStorage.getItem('theme');if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
 <style>
 :root{color-scheme:light;--bg:#eaf0f7;--bar:rgba(246,249,253,.85);--panel:#f8fafd;--ink:#2a3547;--head:#0e1a2e;--dim:#62708a;--line:#d3dce9;--accent:#2563c4;--accent-ink:#1d55ac;--on-accent:#fff;--wave-on:#4a9ae8;--wave-off:#c6d2e3;--glow:rgba(74,154,232,.18)}
@@ -48,67 +48,119 @@ h2{font-size:1.2rem;margin:2.2rem 0 .5rem;color:var(--head)}
 .btn:hover{filter:brightness(1.08)}
 ul{padding-left:1.3rem}
 footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);font-size:.9rem}
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin:14px 0}
+.tiers .card{margin:0}
+.tier.hl{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.price{font-size:1.35rem;font-weight:700;color:var(--head);margin:.1rem 0 .6rem}
+.pay{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:.6rem 0}
+.pay input[type=number]{width:9.5rem;font:inherit;padding:9px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--head)}
+.pay .chip{font:inherit;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:none;color:var(--ink);cursor:pointer}
+.pay .chip:hover{border-color:var(--accent)}
+.pay label{flex-basis:100%;font-size:.92rem;color:var(--dim)}
+.pay button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
+.btn.alt{background:none;color:var(--accent-ink);box-shadow:0 0 0 1px var(--accent) inset}
+#hint{font-size:.92rem;color:var(--dim);flex-basis:100%;margin:0}
 @media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 </style>
 </head>
 <body>
 <div class="bar"><header><a class="brand" href="index.html"><svg width="30" height="20" viewBox="0 0 30 20" aria-hidden="true"><g style="fill:var(--wave-on)"><rect x="0" y="9" width="3" height="8" rx="1.5"/><rect x="5" y="5" width="3" height="12" rx="1.5"/><rect x="10" y="1" width="3" height="16" rx="1.5"/><rect x="15" y="6" width="3" height="11" rx="1.5"/><rect x="20" y="3" width="3" height="14" rx="1.5"/><rect x="25" y="8" width="3" height="9" rx="1.5"/></g></svg>Support the projects</a><a href="index.html">Home</a><a href="offer.html" class=cur>Offer</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="../offer.html">Русский</a><button id="theme" type="button" data-l="Light theme" data-d="Dark theme"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button></header></div>
 <main>
-<h1>Public offer for a voluntary donation</h1>
-<p class="lead">Last updated: October 26, 2026. The Russian version prevails in case of discrepancy.</p>
-<p>The projects are free for everyone. This document governs voluntary donations only: they are not payment for goods, work
-or services and give no additional rights or features.</p>
+<h1>Public offer</h1>
+<p class="lead">On voluntary support of the projects and the "Early access" service. Version of October 26, 2026. The
+Russian version prevails in case of discrepancy.</p>
+<p>The projects are free for everyone. This offer covers two kinds of payments: voluntary support, which unlocks
+nothing, and payment for the "Early access" service.</p>
 
 <h2>1. Terms</h2>
-<p>1.1. <b>Recipient</b> — Matvey Popov, an individual under the Russian special tax regime "Tax on Professional Income"
+<p>1.1. <b>Provider</b> — Matvey Popov, an individual under the Russian special tax regime "Tax on Professional Income"
 (self-employed), taxpayer ID 231521307407.</p>
-<p>1.2. <b>Donor</b> — a legally capable individual who voluntarily transfers money.</p>
-<p>1.3. <b>Projects</b> — the Arsound app (open-source patches for the Android SoundCloud app) and the RimWorld mods listed on
-the <a href="index.html">main page</a>.</p>
-<p>1.4. <b>Donation</b> — a gratuitous, voluntary transfer of money to the Recipient for the purposes in clause 2.2.</p>
+<p>1.2. <b>User</b> — a legally capable individual who makes a Payment.</p>
+<p>1.3. <b>Projects</b> — the Arsound app and the RimWorld mods listed on the <a href="index.html">main page</a>: free,
+open-source software.</p>
+<p>1.4. <b>Bot</b> — the Telegram bot @ArapplicationsBot (<a href="https://t.me/ArapplicationsBot">https://t.me/ArapplicationsBot</a>).</p>
+<p>1.5. <b>Private channel</b> — the Provider's private Telegram channel for users with Early access.</p>
+<p>1.6. <b>Request</b> — a bug report or an idea sent through the Bot.</p>
+<p>1.7. <b>Payment</b> — a single transfer of money to the Provider: in rubles through YooKassa or in Telegram
+Stars in the Bot.</p>
 
-<h2>2. Subject</h2>
-<p>2.1. This is a public offer to conclude a donation agreement under Articles 572 and 582 of the Civil Code of the Russian
-Federation.</p>
-<p>2.2. A donation supports and develops the Projects — free, open-source software available to an unlimited number of people at
-no cost (a public-benefit purpose): development time, testing, test devices, and servers and services needed for building and
-distribution.</p>
-<p>2.3. A donation is voluntary and gratuitous. It is not payment for goods, work or services and does not oblige the Recipient
-to provide any goods, services, extra or priority features, advantages or other consideration. The Projects are available to
-everyone equally and free of charge, regardless of whether or how much was donated.</p>
-<p>2.4. The agreement is concluded when the donation is transferred; the transfer is full and unconditional acceptance of this offer.</p>
+<h2>2. Subject and acceptance</h2>
+<p>2.1. This is a public offer under Article 435 and Article 437(2) of the Civil Code of the Russian Federation. By
+making a Payment, the User fully and unconditionally accepts it (Article 438(3)).</p>
+<p>2.2. <b>"Early access" service.</b> The price of the service in section 3 is 500 RUB (paid services,
+Chapter 39 of the Civil Code). It may be paid in one Payment or in parts: the User's Payments add up on their Telegram
+account — in the Bot at once, on the site after returning to the Bot via the link on the payment page. A Payment in
+Stars counts as 1 Star = 2 RUB. Payments count toward the service until their total reaches the price; then
+the service is paid.</p>
+<p>2.3. <b>Voluntary support.</b> Payments made after the service is paid, and the part of a Payment above its price,
+are gratuitous support of the Projects. Support implies nothing in return and unlocks nothing.</p>
+<p>2.4. Neither support nor the service unlocks any features in the Projects: the Projects are free for everyone.</p>
 <p>2.5. Published at <a href="https://allvoid.github.io/support/en/offer.html">https://allvoid.github.io/support/en/offer.html</a>.</p>
 
-<h2>3. Amount and payment</h2>
-<p>3.1. The Donor chooses the amount, from 100 to 100000 RUB per payment.</p>
-<p>3.2. Payment is made in Russian rubles through payment services available at the time. Card details are entered on the payment
-service's side; the Recipient does not receive them.</p>
-<p>3.3. Before paying, the Donor gives an e-mail address to which a receipt is sent as required by the professional income tax law.</p>
-<p>3.4. The donation is made when the payment service confirms the operation.</p>
+<h2>3. The "Early access" service</h2>
+<p>3.1. The service includes:</p>
+<ul>
+<li>non-expiring access to the Private channel, where the Provider posts test builds of the Projects before the main
+channel, when they are ready, and news not posted in the main channel;</li>
+<li>priority review of Requests: the User's Requests are reviewed before those of users without Early access;</li>
+<li>a tag — a label next to the User's name in the Projects' Telegram discussion chat (clause 3.7).</li>
+</ul>
+<p>3.2. The Provider does not promise any number, frequency or content of posts, or deadlines for fixes and ideas.
+Test builds may be unstable.</p>
+<p>3.3. Delivery: once the total of Payments reaches the price (clause 2.2), the Bot sends the User the Private channel
+link and approves the join request automatically, within 24 hours of that moment.</p>
+<p>3.4. The service is rendered when the User gets access to the Private channel (the link is sent, the request is
+approved). The User may leave and rejoin any number of times — access is kept.</p>
+<p>3.5. Access is personal. Do not share it or publish test builds from the Private channel. On violation the Provider
+may end the access.</p>
+<p>3.6. If the Private channel closes, the Provider announces it in advance in the Bot and in the main channel.</p>
+<p>3.7. The User proposes a tag through the Bot: up to 16 characters, no emoji, no obscene or insulting words.
+The Provider may reject any proposed tag without giving reasons. A rejection does not take away the User's right to
+propose another tag. The Provider may remove a tag that breaks these rules or the chat rules. A tag is set while the
+User is a member of the discussion chat.</p>
 
-<h2>4. Rights and obligations</h2>
-<p>4.1. The Recipient will use the funds for the purposes in clause 2.2, send a receipt to the given address and handle the
-Donor's data under the <a href="privacy.html">Privacy Policy</a>.</p>
-<p>4.2. The Recipient may spend donations at their discretion within those purposes, without reporting to the Donor.</p>
-<p>4.3. The Donor confirms the transfer is voluntary, understands it is gratuitous and expects nothing in return.</p>
-<p>4.4. The Donor guarantees the funds are lawfully theirs. A Donor under 18 donates with the consent of a parent or guardian.</p>
+<h2>4. Payment</h2>
+<p>4.1. From 100 to 100000 RUB per operation; in Stars — from 1 Star.</p>
+<p>4.2. Rubles are accepted through YooKassa (bank card, SBP and other methods it offers) on its payment page.
+Card details are entered on the YooKassa side; the Provider never receives them.</p>
+<p>4.3. Telegram Stars are accepted in the Bot under Telegram's rules.</p>
+<p>4.4. A Payment is made when the payment service or Telegram confirms it.</p>
+<p>4.5. For ruble Payments the Provider issues a receipt under the professional income tax law to the e-mail or phone
+given at checkout.</p>
 
-<h2>5. Refunds</h2>
-<p>5.1. Because a donation is gratuitous, it is generally not refundable.</p>
-<p>5.2. A refund is possible in exceptional cases: a double or erroneous charge caused by a technical failure; a wrong amount caused
-by an obvious technical error — if requested within a reasonable time.</p>
-<p>5.3. To request a refund, write to the e-mail in "Contacts and details" with the date, amount and the e-mail the receipt went to.
-Do not post these details in public places (chats, trackers).
-Review takes up to 7 business days. The refund goes back by the same method.</p>
+<h2>5. Rights and obligations</h2>
+<p>5.1. The Provider spends the funds on the Projects (development time, testing and test devices, servers and
+services), renders the service under section 3 and handles the User's data under the
+<a href="privacy.html">Privacy policy</a>.</p>
+<p>5.2. The Provider gives no report on spending.</p>
+<p>5.3. The User confirms the funds are lawfully theirs. A User under 18 pays with the consent of a parent or
+guardian.</p>
 
-<h2>6. Final provisions</h2>
-<p>6.1. Governed by the law of the Russian Federation.</p>
-<p>6.2. Disputes are settled by negotiation; failing that, under the legislation of the Russian Federation.</p>
-<p>6.3. The Recipient may change this offer. The current version is always at the address in clause 2.5; changes do not affect
-donations already made.</p>
+<h2>6. Refunds</h2>
+<p>6.1. Voluntary support (clause 2.3) is not refunded, except for a double or erroneous charge caused by a technical
+failure.</p>
+<p>6.2. Service: the User may cancel before the service is rendered and get back the Payments counted toward it
+(Article 32 of the Russian Consumer Protection Law). If access is not given within the time in clause 3.3 for reasons on
+the Provider's side, those Payments are refunded in full on request. Once access is given, the service is rendered
+(clause 3.4).</p>
+<p>6.3. A double or erroneous charge is always refunded.</p>
+<p>6.4. To ask for a refund, use /paysupport in the Bot or the e-mail in "Contacts and details". Give the date, amount
+and method. Never send card numbers or SMS codes. Reply and refund within 10 days, by the same method: rubles through
+YooKassa to the same card or account, Stars as Stars in Telegram.</p>
+
+<h2>7. Liability</h2>
+<p>7.1. The Projects, test builds and Private channel materials are provided "as is" — see the
+<a href="terms.html">Terms of use</a>.</p>
+<p>7.2. The Provider is not liable for outages of Telegram or payment services beyond its control.</p>
+
+<h2>8. Final provisions</h2>
+<p>8.1. Governed by the law of the Russian Federation.</p>
+<p>8.2. Disputes are settled by negotiation; failing that, under Russian legislation.</p>
+<p>8.3. The Provider may change this offer. The current version is always at the address in clause 2.5; changes do not
+affect Payments already made.</p>
 
 <h2>Contacts and details</h2>
-<ul><li>Self-employed (Russian NPD regime): Matvey Popov</li><li>Taxpayer ID (INN): 231521307407</li><li>E-mail for requests and refunds: <a href="mailto:arapplicationssupport@gmail.com">arapplicationssupport@gmail.com</a></li><li>Project news: <a href="https://t.me/arsound_git">Telegram channel t.me/arsound_git</a></li></ul>
+<ul><li>Provider: Matvey Popov, self-employed (Russian "Tax on Professional Income" regime)</li><li>Taxpayer ID (INN): 231521307407</li><li>Phone: <a href="tel:+79951691897">+7 995 169-18-97</a></li><li>E-mail for requests and refunds: <a href="mailto:arapplicationssupport@gmail.com">arapplicationssupport@gmail.com</a></li><li>Postal address: 21 Yuzhnaya St., apt. 110, Novorossiysk, Krasnodar Krai, 353924, Russia</li><li>Bugs, ideas, payment questions: Telegram bot <a href="https://t.me/ArapplicationsBot">@ArapplicationsBot</a></li><li>Project news: <a href="https://t.me/arsound_git">Telegram channel t.me/arsound_git</a></li></ul>
 </main>
 <footer>Matvey Popov · INN 231521307407</footer>
 <script>(function(){var r=document.documentElement,b=document.getElementById('theme');
