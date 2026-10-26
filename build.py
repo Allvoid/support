@@ -38,6 +38,7 @@ MODS = [
     ("DoubleAmputateLegs", "https://github.com/Allvoid/DoubleAmputateLegs"),
     ("Hemogen Generator Gene", "https://github.com/Allvoid/HemogenGeneratorGene"),
     ("No Food Void Touch", "https://github.com/Allvoid/NoFoodVoidTouch"),
+    ("Item Reroll", "https://github.com/Allvoid/ItemReroll-Rimworld"),
 ]
 
 CSS = """
