@@ -1,8 +1,10 @@
-# Support the projects
+# Arsound Premium access
 
-Static support and legal pages (RU + EN) for GitHub Pages: voluntary support of Arsound and the RimWorld mods, and the
-"Early access" service (one payment from 500 RUB / 250 Telegram Stars opens a private Telegram channel with test builds
-and priority for bug reports and ideas in the bot @ArapplicationsBot).
+Static pages (RU + EN) for GitHub Pages: the premium access «Early access» for Arsound and the RimWorld mods, and the
+legal texts for it (offer, terms, privacy). Premium access costs 500 RUB / 250 Telegram Stars (it can be paid in parts,
+payments add up) and opens a private Telegram channel with test builds, priority for bug reports and ideas in the bot
+@ArapplicationsBot, and a tag in the discussion chat. The wording matches the bot: payments are for premium access;
+a payment above the price or after access is open is an «additional payment» (offer clause 2.3).
 
 Edit settings at the top of `build.py`, then run `build.cmd` (or `python build.py`) and commit the generated `*.html`.
 

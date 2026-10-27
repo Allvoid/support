@@ -8,8 +8,8 @@ ROOT = pathlib.Path(__file__).parent
 NAME = "Попов Матвей Юрьевич"
 NAME_EN = "Matvey Popov"
 INN = "231521307407"
-UPDATED_RU = "26 октября 2026 года"
-UPDATED_EN = "October 26, 2026"
+UPDATED_RU = "27 октября 2026 года"
+UPDATED_EN = "October 27, 2026"
 MIN_AMOUNT = 100        # меньше этого — не принимаем
 ACCESS_AMOUNT = 500     # разовый платёж от этой суммы — услуга «Ранний доступ»
 ACCESS_STARS = 250      # то же в Telegram Stars (оплата в боте, для тех, у кого нет российской карты)
@@ -165,10 +165,10 @@ def pay_form(lang):
     ru = lang == "ru"
     chips = "".join(f'<button type="button" class="chip" data-v="{v}">{v} {"₽" if ru else "RUB"}</button>'
                     for v in (ACCESS_AMOUNT, ACCESS_AMOUNT * 2, ACCESS_AMOUNT * 4))
-    yes = (f"Этой суммы хватит на ранний доступ: после оплаты вы вернётесь в бот {BOT}, он пришлёт ссылку." if ru
-           else f"This is enough for early access: after paying you return to {BOT}, which sends the link.")
-    no = (f"Сумма засчитается в ранний доступ: платежи суммируются, доступ откроется на {ACCESS_AMOUNT} ₽." if ru
-          else f"It counts toward early access: payments add up, access opens at {ACCESS_AMOUNT} RUB.")
+    yes = (f"Этой суммы хватит на премиум-доступ: после оплаты вы вернётесь в бот {BOT}, он пришлёт ссылку." if ru
+           else f"This is enough for premium access: after paying you return to {BOT}, which sends the link.")
+    no = (f"Сумма засчитается в оплату премиум-доступа: платежи суммируются, доступ откроется на {ACCESS_AMOUNT} ₽." if ru
+          else f"It counts toward premium access: payments add up, access opens at {ACCESS_AMOUNT} RUB.")
     offer = ('Я принимаю условия <a href="offer.html">публичной оферты</a> и <a href="privacy.html">политики '
              'конфиденциальности</a>' if ru else
              'I accept the <a href="offer.html">public offer</a> and the <a href="privacy.html">privacy policy</a>')
@@ -181,9 +181,9 @@ def pay_form(lang):
 
 
 def pay_ru():
-    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=support">Оплатить в Telegram-боте</a></p>'
+    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Оплатить в Telegram-боте</a></p>'
            f'<p class="muted">В боте — карта или СБП через {PAY_SERVICE}, а без российской карты — Telegram Stars '
-           f'(доступ от {ACCESS_STARS} ⭐). Бот сам открывает доступ сразу после оплаты.</p>')
+           f'(премиум-доступ — {ACCESS_STARS} ⭐). Бот сам открывает доступ сразу после оплаты.</p>')
     if PAY_FORM_URL:
         return (f"<p>Картой или через СБП на этом сайте (платёжный сервис {PAY_SERVICE}). Сумма — от {MIN_AMOUNT} "
                 f"до {MAX_AMOUNT} ₽ за платёж.</p>{pay_form('ru')}<p>Или в Telegram:</p>{bot}")
@@ -192,8 +192,8 @@ def pay_ru():
 
 
 def pay_en():
-    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=support">Pay in the Telegram bot</a></p>'
-           f'<p class="muted">Without a Russian card, pay with Telegram Stars in the bot (access from {ACCESS_STARS} ⭐). '
+    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Pay in the Telegram bot</a></p>'
+           f'<p class="muted">Without a Russian card, pay with Telegram Stars in the bot (premium access is {ACCESS_STARS} ⭐). '
            f'Russian cards and SBP work through {PAY_SERVICE_EN}. The bot opens access right after the payment.</p>')
     if PAY_FORM_URL:
         return (f"<p>By card or SBP on this site ({PAY_SERVICE_EN}, Russian cards). From {MIN_AMOUNT} to {MAX_AMOUNT} RUB "
@@ -208,28 +208,29 @@ def mods_list():
 # ------------------------------------------------------------------ RU
 RU = {}
 
-RU["index"] = ("Поддержка проектов", f"""
-<h1>Поддержка проектов</h1>
-<p class="lead">Arsound и моды для RimWorld — бесплатные проекты с открытым кодом от независимого разработчика. Здесь
-их можно поддержать любой суммой, а когда поддержка в сумме достигнет {ACCESS_AMOUNT} ₽ — получить ранний доступ к
-тестовым сборкам.</p>
+RU["index"] = ("Премиум-доступ", f"""
+<h1>Премиум-доступ «Ранний доступ»</h1>
+<p class="lead">Arsound и моды для RimWorld — бесплатные проекты с открытым кодом от независимого разработчика.
+Премиум-доступ «Ранний доступ» стоит {ACCESS_AMOUNT} ₽ (или {ACCESS_STARS} ⭐) и даёт закрытый канал с тестовыми
+сборками, приоритетное рассмотрение ваших сообщений об ошибках и предложений и свой тег в чате обсуждения. Оплатить
+можно сразу или частями: платежи суммируются.</p>
 
 <div class="tiers">
-<div class="card tier">
-<h3>Поддержка</h3>
-<p class="price">любая сумма от {MIN_AMOUNT} ₽</p>
-<p>Каждый платёж — поддержка разработки. Мы рады любой сумме, и большей тоже. Платежи суммируются по вашему
-аккаунту Telegram: когда наберётся {ACCESS_AMOUNT} ₽, откроется ранний доступ.</p>
-</div>
 <div class="card tier hl">
-<h3>Ранний доступ</h3>
-<p class="price">от {ACCESS_AMOUNT} ₽ в сумме</p>
+<h3>Премиум-доступ «Ранний доступ»</h3>
+<p class="price">{ACCESS_AMOUNT} ₽ или {ACCESS_STARS} ⭐</p>
 <ul>
 <li>🔒 Закрытый Telegram-канал: тестовые сборки раньше основного канала и новости, которых там нет.</li>
 <li>⚡ Приоритет: ваши сообщения об ошибках и предложения в боте {BOT} рассматриваются первыми.</li>
 <li>🏷 Свой тег в чате обсуждения — подпись рядом с вашим именем.</li>
 </ul>
 <p class="muted">Одним платежом или частями. Доступ бессрочный.</p>
+</div>
+<div class="card tier">
+<h3>Оплата частями</h3>
+<p class="price">платёж от {MIN_AMOUNT} ₽ (звёздами — от 1 ⭐)</p>
+<p>Платежи суммируются по вашему аккаунту Telegram: когда наберётся {ACCESS_AMOUNT} ₽, откроется премиум-доступ.
+Платёж сверх цены или после открытия доступа — дополнительный платёж: он ничего не меняет в доступе.</p>
 </div>
 </div>
 
@@ -240,15 +241,15 @@ RU["index"] = ("Поддержка проектов", f"""
 
 <h2>Как получить доступ</h2>
 <ol>
-<li>Поддержите проект на {ACCESS_AMOUNT} ₽ (или {ACCESS_STARS} ⭐) — одним платежом или несколькими, в боте {BOT} или на
-этом сайте. Бот суммирует платежи вашего аккаунта Telegram.</li>
+<li>Оплатите премиум-доступ — {ACCESS_AMOUNT} ₽ (или {ACCESS_STARS} ⭐): одним платежом или несколькими, в боте {BOT} или
+на этом сайте. Бот суммирует платежи вашего аккаунта Telegram.</li>
 <li>После оплаты на сайте вы вернётесь в бот — так платёж привяжется к вашему аккаунту. Когда сумма наберётся, бот
 пришлёт ссылку на закрытый канал.</li>
 <li>Нажмите ссылку и отправьте заявку на вступление: бот одобрит её сам, обычно сразу, не позже чем через 24 часа.</li>
 </ol>
 <p class="muted">Канал и бот работают в Telegram, поэтому для доступа нужен аккаунт Telegram.</p>
 
-<h2>На что идут деньги</h2>
+<h2>Что покрывает оплата</h2>
 <ul>
 <li>время на новые версии и исправления ошибок;</li>
 <li>тестовые устройства — телефоны разных производителей и версий Android;</li>
@@ -256,7 +257,7 @@ RU["index"] = ("Поддержка проектов", f"""
 <li>сервисы для сборки и распространения проектов.</li>
 </ul>
 
-<h2>Что поддерживаете</h2>
+<h2>О проектах</h2>
 <div class="card">
 <h3>Arsound</h3>
 <p>Мод для Android-приложения SoundCloud. Неофициальный проект с открытым кодом, не связан с SoundCloud.</p>
@@ -278,16 +279,16 @@ RU["index"] = ("Поддержка проектов", f"""
 
 RU["offer"] = ("Публичная оферта", f"""
 <h1>Публичная оферта</h1>
-<p class="lead">О добровольной поддержке проектов и об услуге «Ранний доступ». Редакция от {UPDATED_RU}.</p>
-<p>Проекты бесплатны для всех. Оферта описывает два вида платежей: добровольную поддержку, которая ничего не
-открывает, и оплату услуги «Ранний доступ».</p>
+<p class="lead">Об услуге «Ранний доступ» (премиум-доступ). Редакция от {UPDATED_RU}.</p>
+<p>Проекты бесплатны для всех. Оферта описывает платную услугу «Ранний доступ» (в Боте и на сайте — «Премиум-доступ») и
+два вида платежей: оплату этой услуги и дополнительные платежи, которые ничего не открывают.</p>
 
 <h2>1. Термины</h2>
 <p>1.1. <b>Исполнитель</b> — {NAME}, физическое лицо, применяющее специальный налоговый режим «Налог на
 профессиональный доход» (самозанятый), ИНН {INN}.</p>
 <p>1.2. <b>Пользователь</b> — дееспособное физическое лицо, которое совершает Платёж.</p>
-<p>1.3. <b>Проекты</b> — приложение Arsound и моды для RimWorld со страницы <a href="index.html">«Поддержка
-проектов»</a>: свободное программное обеспечение с открытым кодом, бесплатное для всех.</p>
+<p>1.3. <b>Проекты</b> — приложение Arsound и моды для RimWorld с <a href="index.html">главной страницы</a>: свободное
+программное обеспечение с открытым кодом, бесплатное для всех.</p>
 <p>1.4. <b>Бот</b> — Telegram-бот {BOT} (<a href="{BOT_URL}">{BOT_URL}</a>).</p>
 <p>1.5. <b>Закрытый канал</b> — приватный Telegram-канал Исполнителя для пользователей с Ранним доступом.</p>
 <p>1.6. <b>Обращение</b> — сообщение об ошибке или предложение, отправленное через Бот.</p>
@@ -297,14 +298,15 @@ RU["offer"] = ("Публичная оферта", f"""
 <h2>2. Предмет и акцепт</h2>
 <p>2.1. Настоящий документ — публичная оферта (ст. 435 и п. 2 ст. 437 Гражданского кодекса РФ). Совершая Платёж,
 Пользователь полностью и безоговорочно принимает её условия (п. 3 ст. 438 ГК РФ).</p>
-<p>2.2. <b>Услуга «Ранний доступ».</b> Цена услуги из раздела 3 — {ACCESS_AMOUNT} ₽ (возмездное оказание услуг,
+<p>2.2. <b>Услуга «Ранний доступ» (премиум-доступ).</b> Цена услуги из раздела 3 — {ACCESS_AMOUNT} ₽ (возмездное оказание услуг,
 глава 39 ГК РФ). Её можно внести одним Платежом или частями: Платежи Пользователя суммируются по его аккаунту Telegram —
 в Боте сразу, на сайте после возврата в Бот по ссылке со страницы оплаты. Платёж звёздами засчитывается из расчёта
 1 Star = {STAR_RUB} ₽. Платежи засчитываются в оплату услуги, пока их сумма не достигнет цены; тогда услуга считается
 оплаченной.</p>
-<p>2.3. <b>Добровольная поддержка.</b> Платежи после оплаты услуги и часть Платежа сверх её цены — добровольная
-безвозмездная поддержка Проектов. Встречного предоставления она не предполагает и ничего не открывает.</p>
-<p>2.4. Ни поддержка, ни услуга не открывают функций в самих Проектах: Проекты одинаково доступны всем бесплатно.</p>
+<p>2.3. <b>Дополнительный платёж.</b> Платежи после оплаты услуги и часть Платежа сверх её цены — дополнительные
+платежи. Они вносятся по желанию Пользователя, не предполагают встречного предоставления и ничего не открывают.</p>
+<p>2.4. Ни дополнительные платежи, ни услуга не открывают функций в самих Проектах: Проекты одинаково доступны всем
+бесплатно.</p>
 <p>2.5. Оферта опубликована по адресу <a href="{SITE_URL}/offer.html">{SITE_URL}/offer.html</a>.</p>
 
 <h2>3. Услуга «Ранний доступ»</h2>
@@ -340,15 +342,15 @@ RU["offer"] = ("Публичная оферта", f"""
 e-mail или телефон, указанные при оплате.</p>
 
 <h2>5. Права и обязанности</h2>
-<p>5.1. Исполнитель направляет средства на развитие Проектов (время разработки, тестирование и тестовые устройства,
-серверы и сервисы для сборки и распространения), оказывает услугу по разделу 3 и обращается с данными Пользователя по
-<a href="privacy.html">Политике конфиденциальности</a>.</p>
+<p>5.1. Исполнитель направляет полученные средства на работу над Проектами и услугой «Ранний доступ» (время разработки,
+тестирование и тестовые устройства, серверы и сервисы для сборки и распространения), оказывает услугу по разделу 3 и
+обращается с данными Пользователя по <a href="privacy.html">Политике конфиденциальности</a>.</p>
 <p>5.2. Отчёт о расходовании средств Исполнитель не предоставляет.</p>
 <p>5.3. Пользователь подтверждает, что средства принадлежат ему на законных основаниях. Пользователь младше 18 лет
 совершает Платёж с согласия родителей или законных представителей.</p>
 
 <h2>6. Возврат</h2>
-<p>6.1. Добровольная поддержка (п. 2.3) не возвращается, кроме двойного или ошибочного списания из-за технического
+<p>6.1. Дополнительные платежи (п. 2.3) не возвращаются, кроме двойного или ошибочного списания из-за технического
 сбоя.</p>
 <p>6.2. Услуга: Пользователь вправе отказаться от услуги до её оказания и получить возврат Платежей, засчитанных в её
 оплату (ст. 32 Закона «О защите прав потребителей»). Если доступ не предоставлен в срок из п. 3.3 по причинам,
@@ -437,8 +439,8 @@ RU["terms"] = ("Пользовательское соглашение", f"""
 <p>1.1. Соглашение определяет условия использования сайта, Telegram-бота {BOT} и проектов {NAME} (далее — Автор):
 приложения Arsound и модов для RimWorld. Пользуясь ими, вы принимаете условия Соглашения.</p>
 <p>1.2. Проекты распространяются бесплатно, с открытым исходным кодом, на условиях лицензий, указанных в их
-репозиториях. Платежи — добровольная поддержка и услуга «Ранний доступ» — регулируются <a href="offer.html">публичной
-офертой</a>.</p>
+репозиториях. Платежи — оплата услуги «Ранний доступ» (премиум-доступ) и дополнительные платежи — регулируются
+<a href="offer.html">публичной офертой</a>.</p>
 
 <h2>2. Неофициальные проекты</h2>
 <p>2.1. Arsound — неофициальный проект. Он не связан и не одобрен SoundCloud, ReVanced, Valve, Ludeon Studios и
@@ -454,9 +456,9 @@ RU["terms"] = ("Пользовательское соглашение", f"""
 <p>3.2. Установка и использование — на риск пользователя. Рекомендуется делать резервные копии сохранений и данных.</p>
 <p>3.3. Тестовые сборки из закрытого канала — предварительные версии: в них чаще встречаются ошибки.</p>
 
-<h2>4. Поддержка и Ранний доступ</h2>
-<p>4.1. Добровольная поддержка ничего не открывает и не даёт преимуществ.</p>
-<p>4.2. Услуга «Ранний доступ» даёт доступ к закрытому каналу с тестовыми сборками и новостями, приоритетное
+<h2>4. Премиум-доступ «Ранний доступ»</h2>
+<p>4.1. Дополнительные платежи (сверх цены услуги) ничего не открывают и не дают преимуществ.</p>
+<p>4.2. Услуга «Ранний доступ» (премиум-доступ) даёт доступ к закрытому каналу с тестовыми сборками и новостями, приоритетное
 рассмотрение ваших сообщений об ошибках и предложений и тег в чате обсуждения. Функций в самих проектах она не
 открывает.</p>
 <p>4.3. Условия, суммы и возврат — в <a href="offer.html">оферте</a>.</p>
@@ -479,28 +481,30 @@ RU["terms"] = ("Пользовательское соглашение", f"""
 # ------------------------------------------------------------------ EN
 EN = {}
 
-EN["index"] = ("Support the projects", f"""
-<h1>Support the projects</h1>
-<p class="lead">Arsound and the RimWorld mods are free, open-source projects by an independent developer. Here you can
-support them with any amount, and once your support reaches {ACCESS_STARS} ⭐ ({ACCESS_AMOUNT} RUB) in total, get
-early access to test builds.</p>
+EN["index"] = ("Premium access", f"""
+<h1>Premium access "Early access"</h1>
+<p class="lead">Arsound and the RimWorld mods are free, open-source projects by an independent developer. Premium
+access "Early access" costs {ACCESS_STARS} ⭐ (or {ACCESS_AMOUNT} RUB) and gives a private channel with test builds,
+priority review of your bug reports and ideas, and your own tag in the discussion chat. You can pay at once or in
+parts: payments add up.</p>
 
 <div class="tiers">
-<div class="card tier">
-<h3>Support</h3>
-<p class="price">any amount</p>
-<p>Every payment supports development. Any amount is welcome, a bigger one too. Payments add up on your Telegram
-account: once they reach {ACCESS_STARS} ⭐ ({ACCESS_AMOUNT} RUB), early access opens.</p>
-</div>
 <div class="card tier hl">
-<h3>Early access</h3>
-<p class="price">from {ACCESS_STARS} ⭐ or {ACCESS_AMOUNT} RUB in total</p>
+<h3>Premium access "Early access"</h3>
+<p class="price">{ACCESS_STARS} ⭐ or {ACCESS_AMOUNT} RUB</p>
 <ul>
 <li>🔒 A private Telegram channel: test builds before the main channel, and news that is not posted there.</li>
 <li>⚡ Priority: your bug reports and ideas in the {BOT} bot are reviewed first.</li>
 <li>🏷 Your own tag in the discussion chat — a label next to your name.</li>
 </ul>
 <p class="muted">In one payment or in parts. Access does not expire.</p>
+</div>
+<div class="card tier">
+<h3>Paying in parts</h3>
+<p class="price">a payment from {MIN_AMOUNT} RUB (in Stars — from 1 ⭐)</p>
+<p>Payments add up on your Telegram account: once they reach {ACCESS_STARS} ⭐ ({ACCESS_AMOUNT} RUB), premium access
+opens. A payment above the price or after access is open is an additional payment: it changes nothing in the
+access.</p>
 </div>
 </div>
 
@@ -511,8 +515,8 @@ offer.</p>
 
 <h2>How to get access</h2>
 <ol>
-<li>Support the project with {ACCESS_STARS} ⭐ (or {ACCESS_AMOUNT} RUB) — in one payment or several, in the {BOT} bot or
-on this site. The bot adds up the payments of your Telegram account.</li>
+<li>Pay for premium access — {ACCESS_STARS} ⭐ (or {ACCESS_AMOUNT} RUB): in one payment or several, in the {BOT} bot
+or on this site. The bot adds up the payments of your Telegram account.</li>
 <li>After paying on the site you return to the bot — that links the payment to your account. Once the total is reached,
 the bot sends the private channel link.</li>
 <li>Tap the link and send a join request: the bot approves it automatically, usually at once, within 24 hours at
@@ -520,7 +524,7 @@ most.</li>
 </ol>
 <p class="muted">The channel and the bot live in Telegram, so a Telegram account is needed for access.</p>
 
-<h2>Where the money goes</h2>
+<h2>What the payment covers</h2>
 <ul>
 <li>time for new versions and bug fixes;</li>
 <li>test devices — phones of different brands and Android versions;</li>
@@ -528,7 +532,7 @@ most.</li>
 <li>services for building and distributing the projects.</li>
 </ul>
 
-<h2>What you support</h2>
+<h2>About the projects</h2>
 <div class="card">
 <h3>Arsound</h3>
 <p>A mod for the Android SoundCloud app. An unofficial open-source project, not affiliated with SoundCloud.</p>
@@ -550,10 +554,11 @@ phone given at checkout. Card details are entered on the {PAY_SERVICE_EN} side a
 
 EN["offer"] = ("Public offer", f"""
 <h1>Public offer</h1>
-<p class="lead">On voluntary support of the projects and the "Early access" service. Version of {UPDATED_EN}. The
-Russian version prevails in case of discrepancy.</p>
-<p>The projects are free for everyone. This offer covers two kinds of payments: voluntary support, which unlocks
-nothing, and payment for the "Early access" service.</p>
+<p class="lead">On the "Early access" service (premium access). Version of {UPDATED_EN}. The Russian version prevails
+in case of discrepancy.</p>
+<p>The projects are free for everyone. This offer covers the paid "Early access" service (called "Premium access" in
+the Bot and on the site) and two kinds of payments: payment for that service and additional payments, which unlock
+nothing.</p>
 
 <h2>1. Terms</h2>
 <p>1.1. <b>Provider</b> — {NAME_EN}, an individual under the Russian special tax regime "Tax on Professional Income"
@@ -570,14 +575,15 @@ Stars in the Bot.</p>
 <h2>2. Subject and acceptance</h2>
 <p>2.1. This is a public offer under Article 435 and Article 437(2) of the Civil Code of the Russian Federation. By
 making a Payment, the User fully and unconditionally accepts it (Article 438(3)).</p>
-<p>2.2. <b>"Early access" service.</b> The price of the service in section 3 is {ACCESS_AMOUNT} RUB (paid services,
+<p>2.2. <b>"Early access" service (premium access).</b> The price of the service in section 3 is {ACCESS_AMOUNT} RUB (paid services,
 Chapter 39 of the Civil Code). It may be paid in one Payment or in parts: the User's Payments add up on their Telegram
 account — in the Bot at once, on the site after returning to the Bot via the link on the payment page. A Payment in
 Stars counts as 1 Star = {STAR_RUB} RUB. Payments count toward the service until their total reaches the price; then
 the service is paid.</p>
-<p>2.3. <b>Voluntary support.</b> Payments made after the service is paid, and the part of a Payment above its price,
-are gratuitous support of the Projects. Support implies nothing in return and unlocks nothing.</p>
-<p>2.4. Neither support nor the service unlocks any features in the Projects: the Projects are free for everyone.</p>
+<p>2.3. <b>Additional payment.</b> Payments made after the service is paid, and the part of a Payment above its price,
+are additional payments. They are made at the User's option, imply nothing in return and unlock nothing.</p>
+<p>2.4. Neither additional payments nor the service unlock any features in the Projects: the Projects are free for
+everyone.</p>
 <p>2.5. Published at <a href="{SITE_URL}/en/offer.html">{SITE_URL}/en/offer.html</a>.</p>
 
 <h2>3. The "Early access" service</h2>
@@ -612,15 +618,15 @@ Card details are entered on the {PAY_SERVICE_EN} side; the Provider never receiv
 given at checkout.</p>
 
 <h2>5. Rights and obligations</h2>
-<p>5.1. The Provider spends the funds on the Projects (development time, testing and test devices, servers and
-services), renders the service under section 3 and handles the User's data under the
-<a href="privacy.html">Privacy policy</a>.</p>
+<p>5.1. The Provider spends the funds received on the work on the Projects and the "Early access" service
+(development time, testing and test devices, servers and services for building and distributing), renders the service
+under section 3 and handles the User's data under the <a href="privacy.html">Privacy policy</a>.</p>
 <p>5.2. The Provider gives no report on spending.</p>
 <p>5.3. The User confirms the funds are lawfully theirs. A User under 18 pays with the consent of a parent or
 guardian.</p>
 
 <h2>6. Refunds</h2>
-<p>6.1. Voluntary support (clause 2.3) is not refunded, except for a double or erroneous charge caused by a technical
+<p>6.1. Additional payments (clause 2.3) are not refunded, except for a double or erroneous charge caused by a technical
 failure.</p>
 <p>6.2. Service: the User may cancel before the service is rendered and get back the Payments counted toward it
 (Article 32 of the Russian Consumer Protection Law). If access is not given within the time in clause 3.3 for reasons on
@@ -707,8 +713,8 @@ EN["terms"] = ("Terms of use", f"""
 <h2>1. General</h2>
 <p>1.1. These terms govern the use of this site, the Telegram bot {BOT} and the projects of {NAME_EN} (the Author):
 the Arsound app and the RimWorld mods. By using them you accept these terms.</p>
-<p>1.2. The projects are free and open-source under the licenses in their repositories. Payments — voluntary support
-and the "Early access" service — are governed by the <a href="offer.html">public offer</a>.</p>
+<p>1.2. The projects are free and open-source under the licenses in their repositories. Payments — for the "Early access"
+service (premium access) and additional payments — are governed by the <a href="offer.html">public offer</a>.</p>
 
 <h2>2. Unofficial projects</h2>
 <p>2.1. Arsound is unofficial. It is not affiliated with or endorsed by SoundCloud, ReVanced, Valve, Ludeon Studios or
@@ -724,9 +730,9 @@ restrictions at third-party services.</p>
 <p>3.2. Installation and use are at your own risk. Back up saves and data.</p>
 <p>3.3. Test builds from the private channel are previews and contain more bugs.</p>
 
-<h2>4. Support and Early access</h2>
-<p>4.1. Voluntary support unlocks nothing and gives no advantages.</p>
-<p>4.2. The "Early access" service gives access to the private channel with test builds and news, priority review of
+<h2>4. Premium access "Early access"</h2>
+<p>4.1. Additional payments (above the price of the service) unlock nothing and give no advantages.</p>
+<p>4.2. The "Early access" service (premium access) gives access to the private channel with test builds and news, priority review of
 your bug reports and ideas, and a tag in the discussion chat. It unlocks no features in the projects.</p>
 <p>4.3. Terms, amounts and refunds are in the <a href="offer.html">offer</a>.</p>
 
@@ -759,12 +765,14 @@ def render(lang, key, title, body):
     )
     switch_href = (f"en/{key}.html" if lang == "ru" else f"../{key}.html")
     switch_text = "English" if lang == "ru" else "Русский"
-    brand = "Поддержка проектов" if lang == "ru" else "Support the projects"
+    brand = "Премиум-доступ Arsound" if lang == "ru" else "Arsound Premium access"
     foot = f"{NAME} · ИНН {INN}" if lang == "ru" else f"{NAME_EN} · INN {INN}"
     tl, td = ("Светлая тема", "Тёмная тема") if lang == "ru" else ("Light theme", "Dark theme")
-    desc = (f"Поддержка Arsound и модов RimWorld: любая сумма, а от {ACCESS_AMOUNT} ₽ — ранний доступ к тестовым сборкам."
+    desc = (f"«Ранний доступ» к Arsound и модам RimWorld за {ACCESS_AMOUNT} ₽: закрытый канал с тестовыми "
+            f"сборками, приоритет заявок, тег в чате."
             if lang == "ru" else
-            f"Support Arsound and RimWorld mods: any amount; early access to test builds from {ACCESS_STARS} Stars.")
+            f"Early access to Arsound and the RimWorld mods for {ACCESS_STARS} Stars ({ACCESS_AMOUNT} RUB): a private "
+            f"channel with test builds, priority for requests, a chat tag.")
     return f"""<!doctype html>
 <html lang="{lang}">
 <head>
