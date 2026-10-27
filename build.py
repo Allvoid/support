@@ -20,11 +20,9 @@ PHONE = "+7 995 169-18-97"
 POSTAL_ADDRESS = "353924, Краснодарский край, г. Новороссийск, ул. Южная, д. 21, кв. 110"  # просит платёжный сервис
 POSTAL_ADDRESS_EN = "21 Yuzhnaya St., apt. 110, Novorossiysk, Krasnodar Krai, 353924, Russia"
 TAG_MAX = 16            # длина тега в чате обсуждения (ограничение Telegram)
-# Форма оплаты на сайте шлёт сумму на сервер бота, он создаёт платёж ЮKassa. Пусто — формы нет, только бот.
-PAY_FORM_URL = ""       # "https://arapplications.ru/pay" — включить, когда ЮKassa подключена
+# Форма оплаты на сайте шлёт сумму на сервер бота, он создаёт платёж в платёжном сервисе. Пусто — формы нет, только бот.
+PAY_FORM_URL = ""       # "https://arapplications.ru/pay" — включить, когда платёжный сервис подключён
 SITE_URL = "https://allvoid.github.io/support"
-PAY_SERVICE = "ЮKassa"  # платёжный сервис для карт и СБП — попадает в оферту и политику
-PAY_SERVICE_EN = "YooKassa"
 BOT = "@ArapplicationsBot"
 BOT_URL = "https://t.me/ArapplicationsBot"
 TG_URL = "https://t.me/arsound_git"
@@ -182,23 +180,22 @@ def pay_form(lang):
 
 def pay_ru():
     bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Оплатить в Telegram-боте</a></p>'
-           f'<p class="muted">В боте — карта или СБП через {PAY_SERVICE}, а без российской карты — Telegram Stars '
+           f'<p class="muted">В боте — карта или СБП через платёжный сервис, а без российской карты — Telegram Stars '
            f'(премиум-доступ — {ACCESS_STARS} ⭐). Бот сам открывает доступ сразу после оплаты.</p>')
     if PAY_FORM_URL:
-        return (f"<p>Картой или через СБП на этом сайте (платёжный сервис {PAY_SERVICE}). Сумма — от {MIN_AMOUNT} "
+        return (f"<p>Картой или через СБП на этом сайте (через платёжный сервис). Сумма — от {MIN_AMOUNT} "
                 f"до {MAX_AMOUNT} ₽ за платёж.</p>{pay_form('ru')}<p>Или в Telegram:</p>{bot}")
-    return (f"{bot}<p class=\"muted\">Оплата картой прямо на сайте появится после подключения платёжного сервиса "
-            f"{PAY_SERVICE}.</p>")
+    return (f"{bot}<p class=\"muted\">Оплата картой прямо на сайте появится после подключения платёжного сервиса.</p>")
 
 
 def pay_en():
     bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Pay in the Telegram bot</a></p>'
            f'<p class="muted">Without a Russian card, pay with Telegram Stars in the bot (premium access is {ACCESS_STARS} ⭐). '
-           f'Russian cards and SBP work through {PAY_SERVICE_EN}. The bot opens access right after the payment.</p>')
+           f'Russian cards and SBP work through the payment service. The bot opens access right after the payment.</p>')
     if PAY_FORM_URL:
-        return (f"<p>By card or SBP on this site ({PAY_SERVICE_EN}, Russian cards). From {MIN_AMOUNT} to {MAX_AMOUNT} RUB "
+        return (f"<p>By card or SBP on this site (through the payment service, Russian cards). From {MIN_AMOUNT} to {MAX_AMOUNT} RUB "
                 f"per payment.</p>{pay_form('en')}<p>Or in Telegram:</p>{bot}")
-    return f"{bot}<p class=\"muted\">Card payments on the site will appear once {PAY_SERVICE_EN} is connected.</p>"
+    return f"{bot}<p class=\"muted\">Card payments on the site will appear once the payment service is connected.</p>"
 
 
 def mods_list():
@@ -274,7 +271,7 @@ RU["index"] = ("Премиум-доступ", f"""
 <h2>Контакты и реквизиты</h2>
 {contact_ru()}
 <p class="muted">Чек самозанятого формируется в приложении «Мой налог» и приходит на e-mail или телефон, указанные при
-оплате. Данные карты вводятся на стороне платёжного сервиса {PAY_SERVICE} и разработчику не передаются.</p>
+оплате. Данные карты вводятся на стороне платёжного сервиса и разработчику не передаются.</p>
 """)
 
 RU["offer"] = ("Публичная оферта", f"""
@@ -293,7 +290,8 @@ RU["offer"] = ("Публичная оферта", f"""
 <p>1.5. <b>Закрытый канал</b> — приватный Telegram-канал Исполнителя для пользователей с Ранним доступом.</p>
 <p>1.6. <b>Обращение</b> — сообщение об ошибке или предложение, отправленное через Бот.</p>
 <p>1.7. <b>Платёж</b> — перечисление денег Исполнителю одной операцией: в рублях через платёжный сервис
-{PAY_SERVICE} или звёздами Telegram (Telegram Stars) в Боте.</p>
+(оператор приёма платежей; его название и условия указаны на странице оплаты, далее — Платёжный сервис) или звёздами
+Telegram (Telegram Stars) в Боте.</p>
 
 <h2>2. Предмет и акцепт</h2>
 <p>2.1. Настоящий документ — публичная оферта (ст. 435 и п. 2 ст. 437 Гражданского кодекса РФ). Совершая Платёж,
@@ -334,8 +332,9 @@ RU["offer"] = ("Публичная оферта", f"""
 
 <h2>4. Оплата</h2>
 <p>4.1. Сумма — от {MIN_AMOUNT} до {MAX_AMOUNT} ₽ за одну операцию; звёздами — от 1 Star.</p>
-<p>4.2. Рубли принимаются через платёжный сервис {PAY_SERVICE} (банковская карта, СБП и другие доступные там способы)
-на странице оплаты сервиса. Данные карты вводятся на стороне {PAY_SERVICE}; Исполнитель их не получает.</p>
+<p>4.2. Рубли принимаются через Платёжный сервис (банковская карта, СБП и другие доступные там способы) на его
+странице оплаты; название и условия Платёжного сервиса указаны на этой странице. Данные карты вводятся на стороне
+Платёжного сервиса; Исполнитель их не получает.</p>
 <p>4.3. Telegram Stars принимаются в Боте по правилам Telegram.</p>
 <p>4.4. Платёж считается совершённым, когда платёжный сервис или Telegram подтвердил операцию.</p>
 <p>4.5. На платёж в рублях Исполнитель формирует чек по закону о налоге на профессиональный доход и направляет его на
@@ -359,7 +358,7 @@ e-mail или телефон, указанные при оплате.</p>
 <p>6.3. Двойное или ошибочное списание возвращается в любом случае.</p>
 <p>6.4. Как запросить возврат: в Боте (команда /paysupport) или на e-mail из раздела «Контакты и реквизиты». Укажите
 дату, сумму и способ оплаты. Не присылайте номер карты и коды из SMS. Срок ответа и возврата — 10 дней. Деньги
-возвращаются тем же способом: рубли — через {PAY_SERVICE} на ту же карту или счёт, звёзды — звёздами в Telegram.</p>
+возвращаются тем же способом: рубли — через Платёжный сервис на ту же карту или счёт, звёзды — звёздами в Telegram.</p>
 
 <h2>7. Ответственность</h2>
 <p>7.1. Проекты, тестовые сборки и материалы Закрытого канала предоставляются «как есть» — см.
@@ -400,9 +399,9 @@ GitHub Pages; GitHub, как любой веб-сервер, может фикс
 
 <h2>4. Платежи</h2>
 <p>Обрабатываются: сумма, дата, статус и идентификатор платежа, а также связь платежа с ID Telegram — чтобы открыть
-Ранний доступ. E-mail или телефон для чека вы указываете на странице {PAY_SERVICE}. Номер карты, CVC и имя держателя
-оператор не получает и не хранит. {PAY_SERVICE} и Telegram (для оплаты звёздами) обрабатывают данные по своим
-политикам. Для чека сведения о платеже вносятся в приложение «Мой налог» (ФНС России).</p>
+Ранний доступ. E-mail или телефон для чека вы указываете на странице оплаты платёжного сервиса (оператора приёма платежей; его
+название и условия указаны на этой странице). Номер карты, CVC и имя держателя оператор не получает и не хранит.
+Платёжный сервис и Telegram (для оплаты звёздами) обрабатывают данные по своим политикам. Для чека сведения о платеже вносятся в приложение «Мой налог» (ФНС России).</p>
 
 <h2>5. Цели, основания и сроки</h2>
 <p>Цели: приём платежей и выдача чеков, оказание услуги «Ранний доступ», рассмотрение заявок и ответы на них,
@@ -410,7 +409,7 @@ GitHub Pages; GitHub, как любой веб-сервер, может фикс
 по вашей инициативе, обязанности по закону и ваше согласие (п. 1, 2 и 5 ч. 1 ст. 6 Федерального закона № 152-ФЗ
 «О персональных данных»). Оплачивая или отправляя заявку в бот, вы соглашаетесь с обработкой данных на условиях этой
 Политики.</p>
-<p>Данные не продаются и не передаются третьим лицам, кроме {PAY_SERVICE}, Telegram и ФНС — в объёме, нужном для
+<p>Данные не продаются и не передаются третьим лицам, кроме платёжного сервиса, Telegram и ФНС — в объёме, нужном для
 перечисленных целей. Сведения о платежах хранятся в течение срока налоговой отчётности (не менее 4 лет), заявки и
 переписка — пока нужны для решения вопроса; по вашей просьбе их удалят раньше.</p>
 
@@ -549,7 +548,7 @@ most.</li>
 <h2>Contacts and details</h2>
 {contact_en()}
 <p class="muted">For ruble payments a self-employed receipt is issued in the "My Tax" app and sent to the e-mail or
-phone given at checkout. Card details are entered on the {PAY_SERVICE_EN} side and never reach the developer.</p>
+phone given at checkout. Card details are entered on the payment service side and never reach the developer.</p>
 """)
 
 EN["offer"] = ("Public offer", f"""
@@ -569,8 +568,9 @@ open-source software.</p>
 <p>1.4. <b>Bot</b> — the Telegram bot {BOT} (<a href="{BOT_URL}">{BOT_URL}</a>).</p>
 <p>1.5. <b>Private channel</b> — the Provider's private Telegram channel for users with Early access.</p>
 <p>1.6. <b>Request</b> — a bug report or an idea sent through the Bot.</p>
-<p>1.7. <b>Payment</b> — a single transfer of money to the Provider: in rubles through {PAY_SERVICE_EN} or in Telegram
-Stars in the Bot.</p>
+<p>1.7. <b>Payment</b> — a single transfer of money to the Provider: in rubles through a payment service
+(a payment acceptance operator whose name and terms are shown on the payment page; the "Payment Service") or in
+Telegram Stars in the Bot.</p>
 
 <h2>2. Subject and acceptance</h2>
 <p>2.1. This is a public offer under Article 435 and Article 437(2) of the Civil Code of the Russian Federation. By
@@ -610,8 +610,9 @@ User is a member of the discussion chat.</p>
 
 <h2>4. Payment</h2>
 <p>4.1. From {MIN_AMOUNT} to {MAX_AMOUNT} RUB per operation; in Stars — from 1 Star.</p>
-<p>4.2. Rubles are accepted through {PAY_SERVICE_EN} (bank card, SBP and other methods it offers) on its payment page.
-Card details are entered on the {PAY_SERVICE_EN} side; the Provider never receives them.</p>
+<p>4.2. Rubles are accepted through the Payment Service (bank card, SBP and other methods it offers) on its payment
+page; the name and terms of the Payment Service are shown on that page. Card details are entered on the Payment
+Service side; the Provider never receives them.</p>
 <p>4.3. Telegram Stars are accepted in the Bot under Telegram's rules.</p>
 <p>4.4. A Payment is made when the payment service or Telegram confirms it.</p>
 <p>4.5. For ruble Payments the Provider issues a receipt under the professional income tax law to the e-mail or phone
@@ -635,7 +636,7 @@ the Provider's side, those Payments are refunded in full on request. Once access
 <p>6.3. A double or erroneous charge is always refunded.</p>
 <p>6.4. To ask for a refund, use /paysupport in the Bot or the e-mail in "Contacts and details". Give the date, amount
 and method. Never send card numbers or SMS codes. Reply and refund within 10 days, by the same method: rubles through
-{PAY_SERVICE_EN} to the same card or account, Stars as Stars in Telegram.</p>
+the Payment Service to the same card or account, Stars as Stars in Telegram.</p>
 
 <h2>7. Liability</h2>
 <p>7.1. The Projects, test builds and Private channel materials are provided "as is" — see the
@@ -676,8 +677,9 @@ for 14 days.</p>
 
 <h2>4. Payments</h2>
 <p>We process the amount, date, status and ID of a payment and its link to your Telegram ID — to open Early access.
-You enter the e-mail or phone for the receipt on the {PAY_SERVICE_EN} page. We never receive or store your card
-number, CVC or cardholder name. {PAY_SERVICE_EN} and Telegram (for Stars) process data under their own policies. For
+You enter the e-mail or phone for the receipt on the payment page of the payment service (the payment acceptance operator; its name and terms are
+shown on that page). We never receive or store your card number, CVC or cardholder name. The payment service and
+Telegram (for Stars) process data under their own policies. For
 the receipt, payment details are entered into the "My Tax" app of the Russian Federal Tax Service.</p>
 
 <h2>5. Purposes, grounds and retention</h2>
@@ -685,7 +687,7 @@ the receipt, payment details are entered into the "My Tax" app of the Russian Fe
 duties, protection against abuse. Grounds: the contract under the <a href="offer.html">offer</a> concluded at your
 initiative, legal duties and your consent (Article 6(1)(1, 2, 5) of Russian Federal Law No. 152-FZ). By paying or
 sending a request to the bot you consent to the processing described here.</p>
-<p>Data is not sold or passed to third parties, except {PAY_SERVICE_EN}, Telegram and the tax service, as needed for
+<p>Data is not sold or passed to third parties, except the payment service, Telegram and the tax service, as needed for
 these purposes. Payment records are kept for the tax reporting period (at least 4 years); requests and conversations —
 as long as needed to resolve them, or less on your request.</p>
 
