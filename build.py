@@ -805,41 +805,9 @@ def legal_html(name):
 RU["privacy"] = ("Политика конфиденциальности", legal_html("privacy-policy.md"))
 RU["terms"] = ("Пользовательское соглашение", legal_html("user-agreement.md"))
 
-RU["support"] = ("Поддержка", f"""
-<h1>Поддержка</h1>
-<p class="lead">Вопросы по оплате и доступу, ошибки и предложения.</p>
-
-<h2>Telegram-бот {BOT}</h2>
-<p>Основной способ связи: в боте можно сообщить об ошибке, предложить идею, задать вопрос по оплате или доступу.
-Ответы приходят в тот же чат с ботом. Обращения тех, кто оформил премиум-доступ, рассматриваются в первую очередь.</p>
-<p><a href="{BOT_URL}">Открыть бота {BOT}</a></p>
-
-<h2>Электронная почта</h2>
-<p>Для обращений и возвратов: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>. Ответим в течение 10 дней.</p>
-
-<h2>Другое</h2>
-<ul><li>Новости проекта: <a href="{TG_URL}">Telegram-канал t.me/arsound_git</a></li></ul>
-""")
-
-EN["support"] = ("Support", f"""
-<h1>Support</h1>
-<p class="lead">Questions about payment and access, bugs and ideas.</p>
-
-<h2>Telegram bot {BOT}</h2>
-<p>The main way to reach us: in the bot you can report a bug, suggest an idea, or ask about payment or access.
-Replies come in the same chat. Requests from users with premium access are handled first.</p>
-<p><a href="{BOT_URL}">Open the bot {BOT}</a></p>
-
-<h2>E-mail</h2>
-<p>For requests and refunds: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a>. We reply within 10 days.</p>
-
-<h2>Other</h2>
-<ul><li>Project news: <a href="{TG_URL}">Telegram channel t.me/arsound_git</a></li></ul>
-""")
-
 NAV = {
-    "ru": [("index", "Главная"), ("offer", "Оферта"), ("support", "Поддержка"), ("privacy", "Конфиденциальность"), ("terms", "Соглашение")],
-    "en": [("index", "Home"), ("offer", "Offer"), ("support", "Support"), ("privacy", "Privacy"), ("terms", "Terms")],
+    "ru": [("index", "Главная"), ("offer", "Оферта"), ("privacy", "Конфиденциальность"), ("terms", "Соглашение")],
+    "en": [("index", "Home"), ("offer", "Offer"), ("privacy", "Privacy"), ("terms", "Terms")],
 }
 
 
