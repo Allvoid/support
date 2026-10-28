@@ -10,7 +10,8 @@ Edit settings at the top of `build.py`, then run `build.cmd` (or `python build.p
 
 - `PAY_FORM_URL` — set to `https://arapplications.ru/pay` once the payment service is connected in the bot's server config:
   the site then shows a payment form; until then it only links to the bot.
-- `POSTAL_ADDRESS` — postal address for the contacts block (the payment service asks for it); empty = no line.
+- `SHOW_PERSONAL` — `False` hides the owner's name, taxpayer ID, phone and postal address on all pages (payment-service
+  moderation); `True` shows them again. `POSTAL_ADDRESS` is the address for the contacts block (only shown when `SHOW_PERSONAL`).
 - `ACCESS_AMOUNT` / `ACCESS_STARS` must match `ACCESS_RUB` / `ACCESS_STARS` in the bot's `/etc/arbot/arbot.env`.
 
 Payments themselves are handled by the bot's server (repository `arapps-bot`): the form posts the amount there, the server

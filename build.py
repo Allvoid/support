@@ -19,6 +19,15 @@ CONTACT_EMAIL = "arapplicationssupport@gmail.com"
 PHONE = "+7 995 169-18-97"
 POSTAL_ADDRESS = "353924, Краснодарский край, г. Новороссийск, ул. Южная, д. 21, кв. 110"  # просит платёжный сервис
 POSTAL_ADDRESS_EN = "21 Yuzhnaya St., apt. 110, Novorossiysk, Krasnodar Krai, 353924, Russia"
+# На время модерации платёжным сервисом личные данные скрыты (ФИО, ИНН, телефон, почтовый адрес). Вернуть: True.
+# Что именно скрыто — local-docs/removed-for-moderation.md
+SHOW_PERSONAL = False
+PERSON_RU = NAME if SHOW_PERSONAL else "Автор проектов"
+PERSON_GEN_RU = NAME if SHOW_PERSONAL else "их автора"          # «проектов ...»
+PERSON_EN = NAME_EN if SHOW_PERSONAL else "The projects' author"
+PERSON_GEN_EN = NAME_EN if SHOW_PERSONAL else "their author"    # "the projects of ..."
+INN_RU = f", ИНН {INN}" if SHOW_PERSONAL else ""
+INN_EN = f", taxpayer ID {INN}" if SHOW_PERSONAL else ""
 TAG_MAX = 16            # длина тега в чате обсуждения (ограничение Telegram)
 # Форма оплаты на сайте шлёт сумму на сервер бота, он создаёт платёж в платёжном сервисе. Пусто — формы нет, только бот.
 PAY_FORM_URL = ""       # "https://arapplications.ru/pay" — включить, когда платёжный сервис подключён
@@ -132,10 +141,14 @@ def tel():
 
 
 def contact_ru():
-    address = f"<li>Почтовый адрес: {POSTAL_ADDRESS}</li>" if POSTAL_ADDRESS else ""
-    return (f'<ul><li>Исполнитель: {NAME}, плательщик налога на профессиональный доход (самозанятый)</li>'
-            f'<li>ИНН: {INN}</li>'
-            f'<li>Телефон: <a href="tel:{tel()}">{PHONE}</a></li>'
+    show = SHOW_PERSONAL
+    address = f"<li>Почтовый адрес: {POSTAL_ADDRESS}</li>" if POSTAL_ADDRESS and show else ""
+    who = f'<li>Исполнитель: {NAME}, плательщик налога на профессиональный доход (самозанятый)</li>' if show else ""
+    inn = f'<li>ИНН: {INN}</li>' if show else ""
+    phone = f'<li>Телефон: <a href="tel:{tel()}">{PHONE}</a></li>' if show else ""
+    return (f'<ul>{who}'
+            f'{inn}'
+            f'{phone}'
             f'<li>E-mail для обращений и возвратов: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></li>'
             f'{address}'
             f'<li>Ошибки, предложения, вопросы по оплате: Telegram-бот <a href="{BOT_URL}">{BOT}</a></li>'
@@ -143,10 +156,14 @@ def contact_ru():
 
 
 def contact_en():
-    address = f"<li>Postal address: {POSTAL_ADDRESS_EN or POSTAL_ADDRESS}</li>" if POSTAL_ADDRESS else ""
-    return (f'<ul><li>Provider: {NAME_EN}, self-employed (Russian "Tax on Professional Income" regime)</li>'
-            f'<li>Taxpayer ID (INN): {INN}</li>'
-            f'<li>Phone: <a href="tel:{tel()}">{PHONE}</a></li>'
+    show = SHOW_PERSONAL
+    address = f"<li>Postal address: {POSTAL_ADDRESS_EN or POSTAL_ADDRESS}</li>" if POSTAL_ADDRESS and show else ""
+    who = f'<li>Provider: {NAME_EN}, self-employed (Russian "Tax on Professional Income" regime)</li>' if show else ""
+    inn = f'<li>Taxpayer ID (INN): {INN}</li>' if show else ""
+    phone = f'<li>Phone: <a href="tel:{tel()}">{PHONE}</a></li>' if show else ""
+    return (f'<ul>{who}'
+            f'{inn}'
+            f'{phone}'
             f'<li>E-mail for requests and refunds: <a href="mailto:{CONTACT_EMAIL}">{CONTACT_EMAIL}</a></li>'
             f'{address}'
             f'<li>Bugs, ideas, payment questions: Telegram bot <a href="{BOT_URL}">{BOT}</a></li>'
@@ -268,7 +285,7 @@ RU["index"] = ("Премиум-доступ", f"""
 <p class="muted"><a href="{STEAM_URL}">Профиль в Steam Workshop</a> · <a href="{GITHUB_URL}">GitHub</a></p>
 </div>
 
-<h2>Контакты и реквизиты</h2>
+<h2>Контакты</h2>
 {contact_ru()}
 <p class="muted">Чек самозанятого формируется в приложении «Мой налог» и приходит на e-mail или телефон, указанные при
 оплате. Данные карты вводятся на стороне платёжного сервиса и разработчику не передаются.</p>
@@ -281,8 +298,8 @@ RU["offer"] = ("Публичная оферта", f"""
 два вида платежей: оплату этой услуги и дополнительные платежи, которые ничего не открывают.</p>
 
 <h2>1. Термины</h2>
-<p>1.1. <b>Исполнитель</b> — {NAME}, физическое лицо, применяющее специальный налоговый режим «Налог на
-профессиональный доход» (самозанятый), ИНН {INN}.</p>
+<p>1.1. <b>Исполнитель</b> — {PERSON_RU}, физическое лицо, применяющее специальный налоговый режим «Налог на
+профессиональный доход» (самозанятый){INN_RU}.</p>
 <p>1.2. <b>Пользователь</b> — дееспособное физическое лицо, которое совершает Платёж.</p>
 <p>1.3. <b>Проекты</b> — приложение Arsound и моды для RimWorld с <a href="index.html">главной страницы</a>: свободное
 программное обеспечение с открытым кодом, бесплатное для всех.</p>
@@ -356,7 +373,7 @@ e-mail или телефон, указанные при оплате.</p>
 зависящим от Исполнителя, эти Платежи по запросу возвращаются полностью. После предоставления доступа услуга считается
 оказанной (п. 3.4).</p>
 <p>6.3. Двойное или ошибочное списание возвращается в любом случае.</p>
-<p>6.4. Как запросить возврат: в Боте (команда /paysupport) или на e-mail из раздела «Контакты и реквизиты». Укажите
+<p>6.4. Как запросить возврат: в Боте (команда /paysupport) или на e-mail из раздела «Контакты». Укажите
 дату, сумму и способ оплаты. Не присылайте номер карты и коды из SMS. Срок ответа и возврата — 10 дней. Деньги
 возвращаются тем же способом: рубли — через Платёжный сервис на ту же карту или счёт, звёзды — звёздами в Telegram.</p>
 
@@ -371,7 +388,7 @@ e-mail или телефон, указанные при оплате.</p>
 <p>8.3. Исполнитель вправе менять оферту. Действующая редакция всегда доступна по адресу из п. 2.5; изменения не
 затрагивают уже совершённых Платежей.</p>
 
-<h2>Контакты и реквизиты</h2>
+<h2>Контакты</h2>
 {contact_ru()}
 """)
 
@@ -380,7 +397,7 @@ RU["privacy"] = ("Политика конфиденциальности", f"""
 <p class="lead">Редакция от {UPDATED_RU}</p>
 
 <h2>1. Оператор</h2>
-<p>Оператор персональных данных — {NAME}, самозанятый, ИНН {INN}. Контакты — в конце страницы.</p>
+<p>Оператор персональных данных — {PERSON_RU}, самозанятый{INN_RU}. Контакты — в конце страницы.</p>
 
 <h2>2. Сайт</h2>
 <p>Сайт статический: у него нет аккаунтов, cookie, счётчиков посещений, рекламы и сторонней аналитики. Он размещён на
@@ -435,7 +452,7 @@ RU["terms"] = ("Пользовательское соглашение", f"""
 <p class="lead">Редакция от {UPDATED_RU}</p>
 
 <h2>1. Общие положения</h2>
-<p>1.1. Соглашение определяет условия использования сайта, Telegram-бота {BOT} и проектов {NAME} (далее — Автор):
+<p>1.1. Соглашение определяет условия использования сайта, Telegram-бота {BOT} и проектов {PERSON_GEN_RU} (далее — Автор):
 приложения Arsound и модов для RimWorld. Пользуясь ими, вы принимаете условия Соглашения.</p>
 <p>1.2. Проекты распространяются бесплатно, с открытым исходным кодом, на условиях лицензий, указанных в их
 репозиториях. Платежи — оплата услуги «Ранний доступ» (премиум-доступ) и дополнительные платежи — регулируются
@@ -545,7 +562,7 @@ most.</li>
 <p class="muted"><a href="{STEAM_URL}">Steam Workshop profile</a> · <a href="{GITHUB_URL}">GitHub</a></p>
 </div>
 
-<h2>Contacts and details</h2>
+<h2>Contacts</h2>
 {contact_en()}
 <p class="muted">For ruble payments a self-employed receipt is issued in the "My Tax" app and sent to the e-mail or
 phone given at checkout. Card details are entered on the payment service side and never reach the developer.</p>
@@ -560,8 +577,8 @@ the Bot and on the site) and two kinds of payments: payment for that service and
 nothing.</p>
 
 <h2>1. Terms</h2>
-<p>1.1. <b>Provider</b> — {NAME_EN}, an individual under the Russian special tax regime "Tax on Professional Income"
-(self-employed), taxpayer ID {INN}.</p>
+<p>1.1. <b>Provider</b> — {PERSON_EN}, an individual under the Russian special tax regime "Tax on Professional Income"
+(self-employed){INN_EN}.</p>
 <p>1.2. <b>User</b> — a legally capable individual who makes a Payment.</p>
 <p>1.3. <b>Projects</b> — the Arsound app and the RimWorld mods listed on the <a href="index.html">main page</a>: free,
 open-source software.</p>
@@ -634,7 +651,7 @@ failure.</p>
 the Provider's side, those Payments are refunded in full on request. Once access is given, the service is rendered
 (clause 3.4).</p>
 <p>6.3. A double or erroneous charge is always refunded.</p>
-<p>6.4. To ask for a refund, use /paysupport in the Bot or the e-mail in "Contacts and details". Give the date, amount
+<p>6.4. To ask for a refund, use /paysupport in the Bot or the e-mail in "Contacts". Give the date, amount
 and method. Never send card numbers or SMS codes. Reply and refund within 10 days, by the same method: rubles through
 the Payment Service to the same card or account, Stars as Stars in Telegram.</p>
 
@@ -649,7 +666,7 @@ the Payment Service to the same card or account, Stars as Stars in Telegram.</p>
 <p>8.3. The Provider may change this offer. The current version is always at the address in clause 2.5; changes do not
 affect Payments already made.</p>
 
-<h2>Contacts and details</h2>
+<h2>Contacts</h2>
 {contact_en()}
 """)
 
@@ -658,7 +675,7 @@ EN["privacy"] = ("Privacy policy", f"""
 <p class="lead">Version of {UPDATED_EN}. The Russian version prevails in case of discrepancy.</p>
 
 <h2>1. Operator</h2>
-<p>The data operator is {NAME_EN}, self-employed, taxpayer ID {INN}. Contacts are at the bottom of the page.</p>
+<p>The data operator is {PERSON_EN}, self-employed{INN_EN}. Contacts are at the bottom of the page.</p>
 
 <h2>2. This site</h2>
 <p>The site is static: no accounts, cookies, visit counters, ads or third-party analytics. It is hosted on GitHub
@@ -713,7 +730,7 @@ EN["terms"] = ("Terms of use", f"""
 <p class="lead">Version of {UPDATED_EN}. The Russian version prevails in case of discrepancy.</p>
 
 <h2>1. General</h2>
-<p>1.1. These terms govern the use of this site, the Telegram bot {BOT} and the projects of {NAME_EN} (the Author):
+<p>1.1. These terms govern the use of this site, the Telegram bot {BOT} and the projects of {PERSON_GEN_EN} (the Author):
 the Arsound app and the RimWorld mods. By using them you accept these terms.</p>
 <p>1.2. The projects are free and open-source under the licenses in their repositories. Payments — for the "Early access"
 service (premium access) and additional payments — are governed by the <a href="offer.html">public offer</a>.</p>
@@ -753,6 +770,41 @@ personal data.</p>
 {contact_en()}
 """)
 
+def legal_html(name):
+    """Russian privacy policy and user agreement: the payment service's templates from legal/, only date and name filled in."""
+    import html as _html
+    out, items = [], []
+
+    def flush():
+        if items:
+            out.append("<ul>" + "".join(f"<li>{i}</li>" for i in items) + "</ul>")
+            items.clear()
+
+    first_text = True
+    for raw in (ROOT / "legal" / name).read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        text = _html.escape(line.lstrip("#- ").strip() if line[0] in "#-" else line, quote=False)
+        if line.startswith("## "):
+            flush()
+            out.append(f"<h2>{text}</h2>")
+        elif line.startswith("# "):
+            flush()
+            out.append(f"<h1>{text}</h1>")
+        elif line.startswith("- "):
+            items.append(text)
+        else:
+            flush()
+            out.append(f'<p class="lead">{text}</p>' if first_text else f"<p>{text}</p>")
+            first_text = False
+    flush()
+    return chr(10).join(out)
+
+
+RU["privacy"] = ("Политика конфиденциальности", legal_html("privacy-policy.md"))
+RU["terms"] = ("Пользовательское соглашение", legal_html("user-agreement.md"))
+
 NAV = {
     "ru": [("index", "Главная"), ("offer", "Оферта"), ("privacy", "Конфиденциальность"), ("terms", "Соглашение")],
     "en": [("index", "Home"), ("offer", "Offer"), ("privacy", "Privacy"), ("terms", "Terms")],
@@ -768,7 +820,10 @@ def render(lang, key, title, body):
     switch_href = (f"en/{key}.html" if lang == "ru" else f"../{key}.html")
     switch_text = "English" if lang == "ru" else "Русский"
     brand = "Премиум-доступ Arsound" if lang == "ru" else "Arsound Premium access"
-    foot = f"{NAME} · ИНН {INN}" if lang == "ru" else f"{NAME_EN} · INN {INN}"
+    if SHOW_PERSONAL:
+        foot = f"{NAME} · ИНН {INN}" if lang == "ru" else f"{NAME_EN} · INN {INN}"
+    else:
+        foot = "Arapplications"
     tl, td = ("Светлая тема", "Тёмная тема") if lang == "ru" else ("Light theme", "Dark theme")
     desc = (f"«Ранний доступ» к Arsound и модам RimWorld за {ACCESS_AMOUNT} ₽: закрытый канал с тестовыми "
             f"сборками, приоритет заявок, тег в чате."
@@ -802,7 +857,7 @@ def main():
             out = ROOT / ("en" if lang == "en" else ".") / f"{key}.html"
             out.write_text(render(lang, key, title, body), encoding="utf-8")
     (ROOT / ".nojekyll").write_text("", encoding="utf-8")
-    if not POSTAL_ADDRESS:
+    if SHOW_PERSONAL and not POSTAL_ADDRESS:
         print("WARNING: POSTAL_ADDRESS пуст — платёжный сервис просит почтовый адрес в контактах")
     print("ok")
 
