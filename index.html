@@ -60,6 +60,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);fon
 .pay button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .btn.alt{background:none;color:var(--accent-ink);box-shadow:0 0 0 1px var(--accent) inset}
 #hint{font-size:.92rem;color:var(--dim);flex-basis:100%;margin:0}
+.stub{flex-basis:100%;margin:0;padding:10px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--panel);color:var(--head)}
 @media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 </style>
 </head>
@@ -92,7 +93,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);fon
 </div>
 
 <h2>Как оплатить</h2>
-<p><a class="btn" href="https://t.me/ArapplicationsBot?start=premium">Оплатить в Telegram-боте</a></p><p class="muted">В боте — карта или СБП через платёжный сервис, а без российской карты — Telegram Stars (премиум-доступ — 250 ⭐). Бот сам открывает доступ сразу после оплаты.</p><p class="muted">Оплата картой прямо на сайте появится после подключения платёжного сервиса.</p>
+<p>Через СБП на этом сайте (через платёжный сервис). Сумма — от 100 до 100000 ₽ за платёж.</p><form id="pay" class="pay" method="post" action="#" data-access="500" data-yes="Этой суммы хватит на премиум-доступ: после оплаты вы вернётесь в бот @ArapplicationsBot, он пришлёт ссылку." data-no="Сумма засчитается в оплату премиум-доступа: платежи суммируются, доступ откроется на 500 ₽." data-stub="Оплата по СБП на сайте пока недоступна: платёжный сервис подключается. Скоро заработает. Пока можно оплатить в Telegram-боте @ArapplicationsBot звёздами."><button type="button" class="chip" data-v="500">500 ₽</button><button type="button" class="chip" data-v="1000">1000 ₽</button><button type="button" class="chip" data-v="2000">2000 ₽</button><input type="number" name="amount" min="100" max="100000" step="1" value="500" required aria-label="Сумма, ₽"><button class="btn" type="submit">Оплатить по СБП</button><p id="hint"></p><p id="stub" class="stub" role="alert" hidden></p><label><input type="checkbox" required> Я принимаю условия <a href="offer.html">публичной оферты</a> и <a href="privacy.html">политики конфиденциальности</a></label></form><p>Или в Telegram:</p><p><a class="btn alt" href="https://t.me/ArapplicationsBot?start=premium">Оплатить в Telegram-боте</a></p><p class="muted">В боте — СБП через платёжный сервис, а без российской карты — Telegram Stars (премиум-доступ — 250 ⭐). Бот сам открывает доступ сразу после оплаты.</p>
 <p class="muted">Оплачивая, вы принимаете условия <a href="offer.html">публичной оферты</a>. После оплаты приходит чек
 самозанятого. Возврат — по разделу 6 оферты.</p>
 
@@ -139,6 +140,10 @@ function cur(){var t=r.getAttribute('data-theme');return t||(matchMedia('(prefer
 function label(){var l=cur()==='dark'?b.dataset.l:b.dataset.d;b.setAttribute('aria-label',l);b.title=l}
 label();try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',label)}catch(e){}
 var tm;b.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';r.classList.add('theming');clearTimeout(tm);
-r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}label();tm=setTimeout(function(){r.classList.remove('theming')},600)})})();</script>
+r.setAttribute('data-theme',n);try{localStorage.setItem('theme',n)}catch(e){}label();tm=setTimeout(function(){r.classList.remove('theming')},600)})})();(function(){var f=document.getElementById('pay');if(!f)return;var a=f.amount,h=document.getElementById('hint'),st=document.getElementById('stub');
+function upd(){var v=+a.value;h.textContent=v>=+f.dataset.access?f.dataset.yes:f.dataset.no}
+if(f.dataset.stub)f.addEventListener('submit',function(e){e.preventDefault();st.textContent=f.dataset.stub;st.hidden=false});
+f.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){a.value=c.dataset.v;upd()})});
+a.addEventListener('input',upd);upd()})();</script>
 </body>
 </html>

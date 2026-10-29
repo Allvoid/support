@@ -9,7 +9,9 @@ a payment above the price or after access is open is an «additional payment» (
 Edit settings at the top of `build.py`, then run `build.cmd` (or `python build.py`) and commit the generated `*.html`.
 
 - `PAY_FORM_URL` — set to `https://arapplications.ru/pay` once the payment service is connected in the bot's server config:
-  the site then shows a payment form; until then it only links to the bot.
+  the form posts the amount to the bot's server. Until then the form is a stub: the price and the «Pay by SBP» button
+  are shown, a press only says that payment is not available yet (the payment service's moderation asks for the whole
+  purchase path).
 - `SHOW_PERSONAL` — `False` hides the owner's name, taxpayer ID, phone and postal address on all pages (payment-service
   moderation); `True` shows them again. `POSTAL_ADDRESS` is the address for the contacts block (only shown when `SHOW_PERSONAL`).
 - `ACCESS_AMOUNT` / `ACCESS_STARS` must match `ACCESS_RUB` / `ACCESS_STARS` in the bot's `/etc/arbot/arbot.env`.

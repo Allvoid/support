@@ -102,6 +102,7 @@ footer{border-top:1px solid var(--line);padding:18px 0 40px;color:var(--dim);fon
 .pay button.btn{border:0;cursor:pointer;font:inherit;font-weight:700}
 .btn.alt{background:none;color:var(--accent-ink);box-shadow:0 0 0 1px var(--accent) inset}
 #hint{font-size:.92rem;color:var(--dim);flex-basis:100%;margin:0}
+.stub{flex-basis:100%;margin:0;padding:10px 14px;border:1px solid var(--accent);border-radius:10px;background:var(--panel);color:var(--head)}
 @media (max-width:520px){h1{font-size:1.6rem}header{gap:2px 16px}}
 """
 
@@ -170,13 +171,16 @@ def contact_en():
             f'<li>Project news: <a href="{TG_URL}">Telegram channel t.me/arsound_git</a></li></ul>')
 
 
-PAY_JS = """(function(){var f=document.getElementById('pay');if(!f)return;var a=f.amount,h=document.getElementById('hint');
+PAY_JS = """(function(){var f=document.getElementById('pay');if(!f)return;var a=f.amount,h=document.getElementById('hint'),st=document.getElementById('stub');
 function upd(){var v=+a.value;h.textContent=v>=+f.dataset.access?f.dataset.yes:f.dataset.no}
+if(f.dataset.stub)f.addEventListener('submit',function(e){e.preventDefault();st.textContent=f.dataset.stub;st.hidden=false});
 f.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){a.value=c.dataset.v;upd()})});
 a.addEventListener('input',upd);upd()})();"""
 
 
 def pay_form(lang):
+    """Форма суммы. Пока платёжный сервис не подключён (PAY_FORM_URL пуст), кнопка работает как заглушка: путь покупки
+    виден целиком (тариф, цена, «Оплатить»), по нажатию — сообщение, что оплата пока недоступна."""
     ru = lang == "ru"
     chips = "".join(f'<button type="button" class="chip" data-v="{v}">{v} {"₽" if ru else "RUB"}</button>'
                     for v in (ACCESS_AMOUNT, ACCESS_AMOUNT * 2, ACCESS_AMOUNT * 4))
@@ -187,32 +191,33 @@ def pay_form(lang):
     offer = ('Я принимаю условия <a href="offer.html">публичной оферты</a> и <a href="privacy.html">политики '
              'конфиденциальности</a>' if ru else
              'I accept the <a href="offer.html">public offer</a> and the <a href="privacy.html">privacy policy</a>')
-    return (f'<form id="pay" class="pay" method="post" action="{PAY_FORM_URL}" data-access="{ACCESS_AMOUNT}" '
-            f'data-yes="{yes}" data-no="{no}">{chips}'
+    stub_text = ("Оплата по СБП на сайте пока недоступна: платёжный сервис подключается. Скоро заработает. "
+                 f"Пока можно оплатить в Telegram-боте {BOT} звёздами." if ru else
+                 "SBP payment on the site is not available yet: the payment service is being connected. It will work "
+                 f"soon. For now you can pay with Telegram Stars in the bot {BOT}.")
+    stub = "" if PAY_FORM_URL else f' data-stub="{stub_text}"'
+    return (f'<form id="pay" class="pay" method="post" action="{PAY_FORM_URL or "#"}" data-access="{ACCESS_AMOUNT}" '
+            f'data-yes="{yes}" data-no="{no}"{stub}>{chips}'
             f'<input type="number" name="amount" min="{MIN_AMOUNT}" max="{MAX_AMOUNT}" step="1" '
             f'value="{ACCESS_AMOUNT}" required aria-label="{"Сумма, ₽" if ru else "Amount, RUB"}">'
-            f'<button class="btn" type="submit">{"Оплатить" if ru else "Pay"}</button>'
-            f'<p id="hint"></p><label><input type="checkbox" required> {offer}</label></form>')
+            f'<button class="btn" type="submit">{"Оплатить по СБП" if ru else "Pay by SBP"}</button>'
+            f'<p id="hint"></p><p id="stub" class="stub" role="alert" hidden></p><label><input type="checkbox" required> {offer}</label></form>')
 
 
 def pay_ru():
-    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Оплатить в Telegram-боте</a></p>'
-           f'<p class="muted">В боте — карта или СБП через платёжный сервис, а без российской карты — Telegram Stars '
+    bot = (f'<p><a class="btn alt" href="{BOT_URL}?start=premium">Оплатить в Telegram-боте</a></p>'
+           f'<p class="muted">В боте — СБП через платёжный сервис, а без российской карты — Telegram Stars '
            f'(премиум-доступ — {ACCESS_STARS} ⭐). Бот сам открывает доступ сразу после оплаты.</p>')
-    if PAY_FORM_URL:
-        return (f"<p>Картой или через СБП на этом сайте (через платёжный сервис). Сумма — от {MIN_AMOUNT} "
-                f"до {MAX_AMOUNT} ₽ за платёж.</p>{pay_form('ru')}<p>Или в Telegram:</p>{bot}")
-    return (f"{bot}<p class=\"muted\">Оплата картой прямо на сайте появится после подключения платёжного сервиса.</p>")
+    return (f"<p>Через СБП на этом сайте (через платёжный сервис). Сумма — от {MIN_AMOUNT} "
+            f"до {MAX_AMOUNT} ₽ за платёж.</p>{pay_form('ru')}<p>Или в Telegram:</p>{bot}")
 
 
 def pay_en():
-    bot = (f'<p><a class="btn{" alt" if PAY_FORM_URL else ""}" href="{BOT_URL}?start=premium">Pay in the Telegram bot</a></p>'
+    bot = (f'<p><a class="btn alt" href="{BOT_URL}?start=premium">Pay in the Telegram bot</a></p>'
            f'<p class="muted">Without a Russian card, pay with Telegram Stars in the bot (premium access is {ACCESS_STARS} ⭐). '
-           f'Russian cards and SBP work through the payment service. The bot opens access right after the payment.</p>')
-    if PAY_FORM_URL:
-        return (f"<p>By card or SBP on this site (through the payment service, Russian cards). From {MIN_AMOUNT} to {MAX_AMOUNT} RUB "
-                f"per payment.</p>{pay_form('en')}<p>Or in Telegram:</p>{bot}")
-    return f"{bot}<p class=\"muted\">Card payments on the site will appear once the payment service is connected.</p>"
+           f'SBP works through the payment service. The bot opens access right after the payment.</p>')
+    return (f"<p>By SBP on this site (through the payment service, Russian bank accounts). From {MIN_AMOUNT} to {MAX_AMOUNT} RUB "
+            f"per payment.</p>{pay_form('en')}<p>Or in Telegram:</p>{bot}")
 
 
 def mods_list():
@@ -844,7 +849,7 @@ def render(lang, key, title, body):
 <div class="bar"><header><a class="brand" href="index.html">{LOGO}{brand}</a>{nav}<a href="{switch_href}">{switch_text}</a><button id="theme" type="button" data-l="{tl}" data-d="{td}">{SUN}{MOON}</button></header></div>
 <main>{wave_svg() if key == "index" else ""}{body}</main>
 <footer>{foot}</footer>
-<script>{THEME_JS}{PAY_JS if key == "index" and PAY_FORM_URL else ""}</script>
+<script>{THEME_JS}{PAY_JS if key == "index" else ""}</script>
 </body>
 </html>
 """
